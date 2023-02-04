@@ -5,7 +5,7 @@ class Application
     public static function main(): void
     {
         Router::add('/', function () {
-            import('pages/home');
+            require_once('example/hello_world.php');
         });
 
         Router::activate();

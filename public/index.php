@@ -15,6 +15,6 @@ require_once HOME_DIR . '/lib/core.php';
 require_once HOME_DIR . '/main.php';
 
 // URI prefix
-Router::$prefix = '/light/public';
+// Router::$prefix = '/light/public';
 
 Application::main();

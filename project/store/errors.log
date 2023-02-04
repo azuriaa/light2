@@ -1,0 +1,8 @@
+[04-Feb-2023 12:45:24 Europe/Berlin] PHP Warning:  require_once(example/hello_world.php): Failed to open stream: No such file or directory in C:\Users\Ego Yuda Sebatio\Documents\repository\light\project\main.php on line 8
+[04-Feb-2023 12:45:24 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'example/hello_world.php' (include_path='C:\xampp\php\PEAR') in C:\Users\Ego Yuda Sebatio\Documents\repository\light\project\main.php:8
+Stack trace:
+#0 C:\Users\Ego Yuda Sebatio\Documents\repository\light\project\lib\core.php(22): Application::{closure}()
+#1 C:\Users\Ego Yuda Sebatio\Documents\repository\light\project\main.php(11): Router::activate()
+#2 C:\Users\Ego Yuda Sebatio\Documents\repository\light\public\index.php(20): Application::main()
+#3 {main}
+  thrown in C:\Users\Ego Yuda Sebatio\Documents\repository\light\project\main.php on line 8
