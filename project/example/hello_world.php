@@ -1,6 +1,6 @@
 <?php
 
-$text = 'Hello World!';
+$text = "Hello $id";
 
 ?>
 

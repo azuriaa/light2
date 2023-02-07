@@ -1,13 +1,14 @@
 <?php
 
-class Application
+function main(): void
 {
-    public static function main(): void
-    {
-        Router::add('/', function () {
-            require_once('example/hello_world.php');
-        });
+    Router::add('/', function (string $id = '') {
+        if ($id == '') {
+            header('Location: ' . Router::$prefix . '/@World!');
+        }
 
-        Router::activate();
-    }
+        require_once 'example/hello_world.php';
+    });
+
+    Router::activate();
 }

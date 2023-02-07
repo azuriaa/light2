@@ -1,25 +1,28 @@
 <?php
 
-function import(string $file): void
-{
-    require_once realpath(__DIR__ . '/../' . $file . '.php');
-}
-
 class Router
 {
-    static array $routes = [];
-    static string $prefix = '';
+    public static string $prefix = '';
 
-    static function add(string $route, callable $callback): void
+    protected static array $routes = [];
+    protected static string $route = '';
+    protected static string $name = '';
+    protected static string $id = '';
+
+    public static function add(string $route, callable $callback): void
     {
         array_push(Router::$routes, Router::$prefix . $route);
         Router::$routes[Router::$prefix . $route] = $callback;
     }
 
-    static function activate(callable $notFoundHandler = null): void
+    public static function activate(callable $notFoundHandler = null): void
     {
-        if (key_exists(strtok($_SERVER['REQUEST_URI'], '?'), Router::$routes)) {
-            Router::$routes[strtok($_SERVER['REQUEST_URI'], '?')]();
+        Router::$route = strtok($_SERVER['REQUEST_URI'], '?');
+        Router::$name = strtok(Router::$route, '@');
+        Router::$id = strtok('@');
+
+        if (key_exists(Router::$name, Router::$routes)) {
+            Router::$routes[Router::$name](Router::$id);
         } else {
             if ($notFoundHandler != null) {
                 $notFoundHandler();
@@ -32,42 +35,42 @@ class Router
 
 class Handler
 {
-    static function fail(string $message = 'Bad Request'): void
+    public static function fail(string $message = 'Bad Request'): void
     {
         http_response_code(400);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('fail', $message);
     }
 
-    static function failNotFound(): void
+    public static function failNotFound(): void
     {
         http_response_code(404);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('fail', 'Not Found');
     }
 
-    static function failForbidden(): void
+    public static function failForbidden(): void
     {
         http_response_code(403);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('fail', 'Forbidden');
     }
 
-    static function error(string $error = 'Internal Server Error'): void
+    public static function error(string $error = 'Internal Server Error'): void
     {
         http_response_code(500);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('error', $error);
     }
 
-    static function notImplemented(): void
+    public static function notImplemented(): void
     {
         http_response_code(501);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('error', 'Not Implemented');
     }
 
-    static function respond(array $body = ['message' => 'OK']): void
+    public static function respond(array $body = ['message' => 'OK']): void
     {
         $handlerTime = new \DateTime();
 
@@ -79,14 +82,14 @@ class Handler
         echo json_encode($body);
     }
 
-    static function respondCreated(string $message = 'Created'): void
+    public static function respondCreated(string $message = 'Created'): void
     {
         http_response_code(201);
         header('Content-Type: application/json; charset=utf-8');
         echo Handler::message('success', $message);
     }
 
-    static function message(string $status, string $message): string
+    public static function message(string $status, string $message): string
     {
         $handlerTime = new \DateTime();
 

@@ -1,5 +1,8 @@
 <?php
 
+// Timezone
+date_default_timezone_set("Asia/Jakarta");
+
 // Project directory
 define('HOME_DIR', realpath(__DIR__ . "/../project"));
 
@@ -15,6 +18,6 @@ require_once HOME_DIR . '/lib/core.php';
 require_once HOME_DIR . '/main.php';
 
 // URI prefix
-// Router::$prefix = '/light/public';
+Router::$prefix = '/light/public';
 
-Application::main();
+main();
