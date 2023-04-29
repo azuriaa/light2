@@ -54,6 +54,26 @@ function model(string $model)
     return service("\App\Models\\$model");
 }
 
+function db_connect($dsn = null, $username = null, $password = null)
+{
+    if (is_null($dsn) && is_null($username) && is_null($password)) {
+        $username = $_ENV['pdo']['username'];
+        $password = $_ENV['pdo']['password'];
+
+        if ($_ENV['pdo']['driver'] == 'mysql') {
+            $dsn = 'mysql:host=' . $_ENV['pdo']['host'] . ';dbname=' . $_ENV['pdo']['name'];
+        } elseif ($_ENV['pdo']['driver'] == 'sqlite') {
+            $dsn = 'sqlite:' . ROOTPATH . '//store//' . $_ENV['pdo']['name'];
+        } else {
+            $dsn = $_ENV['pdo']['driver'] . ':' . $_ENV['pdo']['name'];
+        }
+    }
+
+    return new Light2\Libraries\FluentPDO\Query(
+        new \PDO($dsn, $username, $password)
+    );
+}
+
 function view(string $file, array $data = [], string $extension = '.php'): void
 {
     $view = service(Light2\Services\RendererService::class);

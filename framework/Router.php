@@ -43,13 +43,13 @@ class Router
 
         if ($method == 'GET' && is_null($id) && method_exists($controller, 'index')) {
             $controller->index();
-        } elseif ($method == 'POST' && is_null($id) && method_exists($controller, 'create')) {
-            $controller->create();
         } elseif ($method == 'GET' && isset($id) && method_exists($controller, 'show')) {
             $controller->show($id);
-        } elseif ($method == 'PUT' && isset($id) && method_exists($controller, 'update')) {
+        } elseif ($method == 'POST' && method_exists($controller, 'create')) {
+            $controller->create();
+        } elseif ($method == 'PUT' && method_exists($controller, 'update')) {
             $controller->update($id);
-        } elseif ($method == 'DELETE' && isset($id) && method_exists($controller, 'delete')) {
+        } elseif ($method == 'DELETE' && method_exists($controller, 'delete')) {
             $controller->delete($id);
         } else {
             Router::runNotFoundHandler();

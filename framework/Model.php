@@ -2,41 +2,31 @@
 
 namespace Light2;
 
-use \PDO;
-use Light2\Libraries\FluentPDO\Query;
-
 abstract class Model
 {
     public string $table = '';
     public string $primaryKey = '';
-    protected $pdo = null;
-    protected $fluent = null;
+    protected $db = null;
 
     public function __construct()
     {
-        $this->pdo = new PDO(
-            $_ENV['database']['dsn'],
-            $_ENV['database']['username'],
-            $_ENV['database']['password']
-        );
-        $this->fluent = new Query($this->pdo);
+        $this->db = db_connect();
     }
 
     public function __destruct()
     {
-        $this->fluent->close();
-        $this->pdo = null;
+        $this->db->close();
     }
 
     public function findAll()
     {
-        return $this->fluent->from($this->table)->fetchAll();
+        return $this->db->from($this->table)->fetchAll();
     }
 
     public function find($id)
     {
         return $this
-            ->fluent
+            ->db
             ->from($this->table)
             ->where($this->primaryKey, $id)
             ->fetch();
@@ -45,7 +35,7 @@ abstract class Model
     public function insert(array $data)
     {
         return $this
-            ->fluent
+            ->db
             ->insertInto($this->table, $data)
             ->execute();
     }
@@ -53,7 +43,7 @@ abstract class Model
     public function update($data, $id)
     {
         return $this
-            ->fluent
+            ->db
             ->update($this->table)
             ->set($data)
             ->where($this->primaryKey, $id)
@@ -63,7 +53,7 @@ abstract class Model
     public function delete($id)
     {
         return $this
-            ->fluent
+            ->db
             ->deleteFrom($this->table)
             ->where($this->primaryKey, $id)
             ->execute();

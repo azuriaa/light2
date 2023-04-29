@@ -1,4 +1,4 @@
-# Light
+# Light2
 Project buat programmer yang males kalo ketemu bloatware.
 
 ## Penjelasan

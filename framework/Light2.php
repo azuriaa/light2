@@ -10,41 +10,31 @@ class Light2
 {
     public static function runApp(): void
     {
-        if ($_ENV['forceGlobalSecure'] == true) {
-            Light2::forceSecure();
-        }
-
-        if ($_ENV['environtment'] == 'development') {
-            Light2::runDevelopmentToolService();
-        } else {
-            Light2::runProductionErrorHandler();
-        }
-
+        Light2::mountForceSecureHandler($_ENV['forceGlobalSecure']);
+        Light2::mountErrorHandler($_ENV['environtment']);
         Routes::register();
         Router::useRouter();
     }
 
-    protected static function forceSecure(): void
+    protected static function mountForceSecureHandler(bool $force = false): void
     {
-        if ($_SERVER['REQUEST_SCHEME'] != 'https') {
-            header('Location: ' . current_url());
-            exit(0);
+        if ($force == true) {
+            if ($_SERVER['REQUEST_SCHEME'] != 'https') {
+                header('Location: ' . current_url());
+                exit(0);
+            }
         }
     }
 
-    protected static function runDevelopmentToolService(): void
+    protected static function mountErrorHandler(string $environtment): void
     {
-        // Whoops
-        $whoops = new Run;
-        $whoops->pushHandler(new PrettyPageHandler);
-        $whoops->register();
-
-        // Kint
-        require_once FRAMEWORKPATH . '/Libraries/Kint/Kint.phar';
-    }
-
-    protected static function runProductionErrorHandler(): void
-    {
-        require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/handler.php';
+        if ($environtment == 'production') {
+            require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/handler.php';
+        } elseif ($environtment == 'development') {
+            $whoops = new Run;
+            $whoops->pushHandler(new PrettyPageHandler);
+            $whoops->register();
+            require_once FRAMEWORKPATH . '/Libraries/Kint/Kint.phar';
+        }
     }
 }
