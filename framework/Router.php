@@ -34,21 +34,22 @@ class Router
 
     public static function controller($controller, $id = null, $middleware = null): void
     {
-        $controller = new $controller;
+        $controller = service($controller);
+        $method = service(RequestService::class)->getMethod();
 
         if (isset($middleware) && method_exists($middleware, 'before')) {
             $middleware::before();
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' && is_null($id) && method_exists($controller, 'index')) {
+        if ($method == 'GET' && is_null($id) && method_exists($controller, 'index')) {
             $controller->index();
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && is_null($id) && method_exists($controller, 'create')) {
+        } elseif ($method == 'POST' && is_null($id) && method_exists($controller, 'create')) {
             $controller->create();
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($id) && method_exists($controller, 'show')) {
+        } elseif ($method == 'GET' && isset($id) && method_exists($controller, 'show')) {
             $controller->show($id);
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT' && isset($id) && method_exists($controller, 'update')) {
+        } elseif ($method == 'PUT' && isset($id) && method_exists($controller, 'update')) {
             $controller->update($id);
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE' && isset($id) && method_exists($controller, 'delete')) {
+        } elseif ($method == 'DELETE' && isset($id) && method_exists($controller, 'delete')) {
             $controller->delete($id);
         } else {
             Router::runNotFoundHandler();
