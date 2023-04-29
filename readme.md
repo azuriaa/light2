@@ -2,9 +2,8 @@
 Project buat programmer yang males kalo ketemu bloatware.
 
 ## Penjelasan
-Ini adalah sebuah project sederhana dan memang dibuat
-sesederhana mungkin untuk meminimalisir latensi response.
-Saat environtment di set ke production, Kint & Whoops tidak di load, jangan sampai masih ada 
+Ini adalah sebuah project sederhana dan memang dibuat sesederhana mungkin untuk meminimalisir latensi response.
+Saat environtment di set ke production, Kint & Whoops tidak di load, jangan sampai masih ada
 ```php
 d($entahApaItu);
 ```
@@ -35,7 +34,7 @@ Router::add('/page/to/something', function () {
 ```
 
 ## Load Class
-Kalau load suatu class atau model, usahain pakai helper
+Kalau load suatu class atau model, usahain pakai helper biar jadi singleton/shared instance kalo dipanggil berkali kali.
 ```php
 // mending
 $class = service(\App\DiFolderMana\ClassApapunItu::class);
@@ -45,7 +44,7 @@ $model = model('ApapunItuModel');
 $class = new \App\DiFolderMana\ClassApapunItu;
 $model = new \App\Models\ApapunItuModel;
 ```
-karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
+Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
 
 ## External Library
 - Kint
