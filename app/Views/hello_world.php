@@ -15,7 +15,7 @@
         <div class="box">
             <h2>Hello World!</h2>
             <p>
-                Hello... Nice to meet you!
+                Hello... Dah gitu aja :v
             </p>
         </div>
     </body>
