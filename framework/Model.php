@@ -16,6 +16,7 @@ abstract class Model
     public function __destruct()
     {
         $this->db->close();
+        $this->db = null;
     }
 
     public function findAll()

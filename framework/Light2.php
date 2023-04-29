@@ -13,23 +13,21 @@ class Light2
         Light2::mountForceSecureHandler($_ENV['forceGlobalSecure']);
         Light2::mountErrorHandler($_ENV['environtment']);
         Routes::register();
-        Router::useRouter();
+        Router::run();
     }
 
     protected static function mountForceSecureHandler(bool $force = false): void
     {
-        if ($force == true) {
-            if ($_SERVER['REQUEST_SCHEME'] != 'https') {
-                header('Location: ' . current_url());
-                exit(0);
-            }
+        if ($force == true && $_SERVER['REQUEST_SCHEME'] != 'https') {
+            header('Location: ' . current_url());
+            exit(0);
         }
     }
 
     protected static function mountErrorHandler(string $environtment): void
     {
         if ($environtment == 'production') {
-            require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/handler.php';
+            require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/error_handler.php';
         } elseif ($environtment == 'development') {
             $whoops = new Run;
             $whoops->pushHandler(new PrettyPageHandler);

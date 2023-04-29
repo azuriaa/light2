@@ -107,38 +107,38 @@ class ResponseService
      */
     public function getHeaders(): array
     {
-        return headers_list();
+        $headers = [];
+        foreach (headers_list() as $values) {
+            $values = explode(': ', $values);
+            $headers[$values[0]] = $values[1];
+        }
+
+        return $headers;
     }
 
     /**
-     * Checks if a header exists by the given case-insensitive name.
+     * Checks if a header exists by the given name.
      *
-     * @param string $name Case-insensitive header field name.
+     * @param string $name header field name.
      * @return bool Returns true if any header names match the given header
-     *              name using a case-insensitive string comparison. Returns false if
+     *              name using a string comparison. Returns false if
      *              no matching header name is found in the message.
      */
     public function hasHeader(string $name): bool
     {
-        $header = $this->getHeaders();
-
-        if (isset($header[$name])) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($this->getHeaders()[$name]) ? true : false;
     }
 
     /**
-     * Retrieves a message header value by the given case-insensitive name.
+     * Retrieves a message header value by the given name.
      *
      * This method returns an array of all the header values of the given
-     * case-insensitive header name.
+     * header name.
      *
      * If the header does not appear in the message, this method MUST return an
      * empty array.
      *
-     * @param string $name Case-insensitive header field name.
+     * @param string $name header field name.
      * @return array<string> An array of string values as provided for the given
      *                       header. If the header does not appear in the message, this method MUST
      *                       return an empty array.
@@ -146,10 +146,6 @@ class ResponseService
     public function getHeader(string $name): array
     {
         $header = $this->getHeaders();
-        if (isset($header[$name])) {
-            return $header[$name];
-        } else {
-            return [];
-        }
+        return isset($header[$name]) ? [$name => $header[$name]] : [];
     }
 }

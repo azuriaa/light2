@@ -9,6 +9,28 @@ d($entahApaItu);
 ```
 yang lupa dihapus/dikomen, nantinya bikin error.
 
+## Setup
+Seperti project umumnya, front controller ada di public_html/index.php.
+Ubah dan arahkan ROOTPATH ke root folder project yang ditentukan.
+```php
+// misalnya
+define('ROOTPATH', realpath(__DIR__ . '/../project_gabut_v2/'));
+```
+Setelah itu set env.json pada root project nya, misalnya
+```json
+{
+    "baseURL": "project-gabut.com",
+    "forceGlobalSecure": true,
+    "environtment": "production",
+    "pdo": {
+        "driver": "sqlite",
+        "database": "database.db",
+        "username": null,
+        "password": null
+    }
+}
+```
+
 ## Routing
 Route dapat diatur pada app/Config/Routes.php.
 Cara kerja routing pada project ini menggubanan penokenan,
@@ -45,6 +67,29 @@ $class = new \App\DiFolderMana\ClassApapunItu;
 $model = new \App\Models\ApapunItuModel;
 ```
 Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
+
+## Connect Database
+Gunakan helper db_connect() nantinya akan membuat instance baru.
+Sengaja gak dibikin singleton ya karena lebih kuenceng
+pake multiple connection.
+```php
+// ngambil parameter dari env.json
+$db = db_connect();
+
+// bisa juga manual kalau mau beda setingan dari env.json
+$db = db_connect('mysql:host=localhost;dbname=light', 'username', 'password');
+
+// langsung bisa dipakai
+$db->insertInto('table_a', ['key' => 'value1'])->execute();
+```
+Kalau di dalam model mau bikin method selain 5 method bawaan (findAll, find, update, delete), untuk ngambilnya begini
+```php
+// ini pakai koneksi yang sama sama model sekarang
+$this->db->insertInto('table_a', ['key' => 'value1'])->execute();
+// atau pake PDO manual juga bisa
+$result = $this->db->getPdo()->query('SELECT * FROM table_a')->fetchAll();
+// dst...
+```
 
 ## External Library
 - Kint

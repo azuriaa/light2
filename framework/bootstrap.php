@@ -9,16 +9,9 @@ define('STOREPATH', ROOTPATH . '/store');
 define('FRAMEWORKPATH', ROOTPATH . '/framework');
 
 // Setup
-error_reporting(E_ALL);
-ini_set('log_errors', true);
-ini_set('error_log', STOREPATH . '/logs/' . date('Y-m-d') . '.log');
 ini_set('session.save_path', STOREPATH . '/session');
-
-if (file_exists(ROOTPATH . '/env.json')) {
-    $_ENV = json_decode(file_get_contents(ROOTPATH . '/env.json'), true);
-    define('BASEURL', $_ENV['baseURL']);
-    ini_set('display_errors', $_ENV['environtment'] == 'development' ? true : false);
-}
+$_ENV = json_decode(file_get_contents(ROOTPATH . '/env.json'), true);
+define('BASEURL', $_ENV['baseURL']);
 
 spl_autoload_register(function ($class) {
     $namespace = strtok($class, '\\');
@@ -29,10 +22,12 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// App Config
-date_default_timezone_set(\App\Config\App::$defaultTimezone);
-
 // Helpers
+function log_message(string $type, string $message): void
+{
+    error_log(ucfirst($type) . ": $message");
+}
+
 function base_url(string $uri = ''): string
 {
     return 'http://' . BASEURL . '/' . $uri;
@@ -61,7 +56,7 @@ function db_connect($dsn = null, $username = null, $password = null)
         $password = $_ENV['pdo']['password'];
 
         if ($_ENV['pdo']['driver'] == 'mysql') {
-            $dsn = 'mysql:host=' . $_ENV['pdo']['host'] . ';dbname=' . $_ENV['pdo']['name'];
+            $dsn = 'mysql:dbname=' . $_ENV['pdo']['database'];
         } elseif ($_ENV['pdo']['driver'] == 'sqlite') {
             $dsn = 'sqlite:' . ROOTPATH . '//store//' . $_ENV['pdo']['name'];
         } else {
@@ -77,9 +72,12 @@ function db_connect($dsn = null, $username = null, $password = null)
 function view(string $file, array $data = [], string $extension = '.php'): void
 {
     $view = service(Light2\Services\RendererService::class);
-    $view->setParams($file, $data, $extension);
+    $view->setup($file, $data, $extension);
     $view->render();
 }
+
+// App Config
+date_default_timezone_set(\App\Config\App::$defaultTimezone);
 
 // Run the app
 Light2\Light2::runApp();

@@ -9,7 +9,7 @@ class Router
     protected static array $routeCollection = [];
     protected static $notFoundHandler = null;
 
-    public static function useRouter(): void
+    public static function run(): void
     {
         $currentURI = explode(
             '/',
@@ -47,7 +47,10 @@ class Router
             $controller->show($id);
         } elseif ($method == 'POST' && method_exists($controller, 'create')) {
             $controller->create();
-        } elseif ($method == 'PUT' && method_exists($controller, 'update')) {
+        } elseif (
+            $method == 'PUT' && method_exists($controller, 'update') ||
+            $method == 'PATCH' && method_exists($controller, 'update')
+        ) {
             $controller->update($id);
         } elseif ($method == 'DELETE' && method_exists($controller, 'delete')) {
             $controller->delete($id);
