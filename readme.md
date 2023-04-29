@@ -11,27 +11,26 @@ d($entahApaItu);
 yang lupa dihapus/dikomen, nantinya bikin error.
 
 ## Routing
-Route dapat diatur pada app/Config/Routes.php
-Cara kerja routing pada framework ini menggubakan penokenan daripada regex karena memang berfokus pada performa,
+Route dapat diatur pada app/Config/Routes.php.
+Cara kerja routing pada project ini menggubanan penokenan,
 route akan ditoken berdasarkan karakter slash, setelah route ditoken slash berikutnya
-akan menjadi params callback route.
+akan menjadi params suatu callback route.
 Jadi tidak diijinkan register route menggunakan slash lebih dari satu.
-### Benar
+Lalu kenapa milih ditoken daripada pakai regex, ya karena speed nya kencengan pake token ketimbang regex.
+### Contoh Benar
 ```php
 Router::add('/page', function () {
     // ...
 });
-```
-### Benar
-```php
+
 Router::add('/page-to-something', function () {
     // ...
 });
 ```
-### Salah
+### Contoh Salah
 ```php
 Router::add('/page/to/something', function () {
-    // ...
+    // ini gak jalan :v
 });
 ```
 
