@@ -1,0 +1,25 @@
+body {
+    font-family: Helvetica;
+    background-color: lightgray;
+}
+
+h2 {
+    color: salmon;
+}
+
+p {
+    opacity: 50%;
+}
+
+.box {
+    margin-top: 48px;
+    margin-left: 24%;
+    margin-right: 24%;
+    margin-bottom: 24px;
+    padding: 24px 24px;
+    border: 2px solid grey;
+    border-style: dashed;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+}
