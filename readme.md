@@ -35,7 +35,7 @@ Router::add('/page/to/something', function () {
 ```
 
 ## Load Class
-Kalau load suatu class atau model, usahain pakai helper service
+Kalau load suatu class atau model, usahain pakai helper
 ```php
 // mending
 $class = service(\App\DiFolderMana\ClassApapunItu::class);
