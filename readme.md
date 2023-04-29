@@ -1,9 +1,14 @@
 # Light
-Single digit server response time PHP project.
+Project buat programmer yang males kalo ketemu bloatware.
 
 ## Penjelasan
 Ini adalah sebuah project sederhana dan memang dibuat
 sesederhana mungkin untuk meminimalisir latensi response.
+Saat environtment di set ke production, Kint & Whoops tidak di load, jangan sampai masih ada 
+```php
+d($entahApaItu);
+```
+yang lupa dihapus/dikomen, nantinya bikin error.
 
 ## Routing
 Route dapat diatur pada app/Config/Routes.php
@@ -29,6 +34,19 @@ Router::add('/page/to/something', function () {
     // ...
 });
 ```
+
+## Load Class
+Kalau load suatu class atau model, usahain pakai helper service
+```php
+// mending
+$class = service(\App\DiFolderMana\ClassApapunItu::class);
+$model = model('ApapunItuModel');
+
+// ketimbang
+$class = new \App\DiFolderMana\ClassApapunItu;
+$model = new \App\Models\ApapunItuModel;
+```
+karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
 
 ## External Library
 - Kint
