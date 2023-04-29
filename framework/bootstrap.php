@@ -1,5 +1,8 @@
 <?php
 
+// Change current directory to root
+chdir(ROOTPATH);
+
 // Constants
 define('APPPATH', ROOTPATH . '/app');
 define('STOREPATH', ROOTPATH . '/store');
