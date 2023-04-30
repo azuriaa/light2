@@ -82,13 +82,19 @@ $db = db_connect('mysql:host=localhost;dbname=light', 'username', 'password');
 // langsung bisa dipakai
 $db->insertInto('table_a', ['key' => 'value1'])->execute();
 ```
-Kalau di dalam model mau bikin method selain method bawaan, untuk mngambil instance nya begini
+Kalau di dalam model mau bikin method selain method bawaan, untuk mengambil instance nya begini
 ```php
-// ini pakai koneksi yang sama sama model sekarang
-$this->db->insertInto('table_a', ['key' => 'value1'])->execute();
-// atau pake PDO manual juga bisa
-$result = $this->db->getPdo()->query('SELECT * FROM table_a')->fetchAll();
-// dst...
+// connect dulu
+$this->connect();
+
+// ini pakai builder
+$resultInsertA = $this->db->insertInto('table_a', ['key' => 'value1'])->execute();
+
+// pake query manual juga bisa
+$resultSelectB = $this->db->getPdo()->query('SELECT * FROM table_b')->fetchAll();
+
+// disconnect kalau udah
+$this->disconnect();
 ```
 
 ## External Library

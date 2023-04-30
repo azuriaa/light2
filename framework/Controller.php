@@ -7,8 +7,8 @@ use Light2\Services\ResponseService;
 
 abstract class Controller
 {
-    protected $request;
-    protected $response;
+    protected RequestService $request;
+    protected ResponseService $response;
 
     public function __construct()
     {
