@@ -11,7 +11,6 @@ define('FRAMEWORKPATH', ROOTPATH . '/framework');
 // Setup
 ini_set('session.save_path', STOREPATH . '/session');
 $_ENV = array_merge($_ENV, json_decode(file_get_contents(ROOTPATH . '/env.json'), true));
-define('BASEURL', $_ENV['baseURL']);
 
 spl_autoload_register(function ($class) {
     $namespace = strtok($class, '\\');
@@ -25,18 +24,18 @@ spl_autoload_register(function ($class) {
 // Helpers
 function log_message(string $type, string $message): void
 {
-    error_log(ucfirst($type) . ": $message");
+    error_log(ucfirst(strtolower($type)) . ": $message");
 }
 
 function base_url(string $uri = ''): string
 {
-    return 'http://' . BASEURL . '/' . $uri;
+    return 'http://' . $_ENV['host'] . '/' . $uri;
 }
 
 function current_url(): string
 {
     $scheme = $_ENV['forceGlobalSecure'] == true ? 'https' : 'http';
-    return $scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    return $scheme . '://' . filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_URL) . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 }
 
 function service(string $service)

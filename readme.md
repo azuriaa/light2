@@ -19,7 +19,7 @@ define('ROOTPATH', realpath(__DIR__ . '/../project_gabut_v2/'));
 Setelah itu set env.json pada root project nya, misalnya
 ```json
 {
-    "baseURL": "project-gabut.com",
+    "host": "project-gabut.com",
     "forceGlobalSecure": true,
     "environtment": "production",
     "pdo": {
@@ -82,7 +82,7 @@ $db = db_connect('mysql:host=localhost;dbname=light', 'username', 'password');
 // langsung bisa dipakai
 $db->insertInto('table_a', ['key' => 'value1'])->execute();
 ```
-Kalau di dalam model mau bikin method selain 5 method bawaan (findAll, find, update, delete), untuk ngambilnya begini
+Kalau di dalam model mau bikin method selain method bawaan, untuk mngambil instance nya begini
 ```php
 // ini pakai koneksi yang sama sama model sekarang
 $this->db->insertInto('table_a', ['key' => 'value1'])->execute();

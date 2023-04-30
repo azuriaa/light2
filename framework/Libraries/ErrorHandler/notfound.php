@@ -3,24 +3,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>404 - Not Found</title>
-        <style>
-            <?php require_once 'style.css' ?>
-        </style>
-    </head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Not Found</title>
+    <style>
+      <?php require_once 'style.css' ?>
+    </style>
+  </head>
 
-    <body>
+  <body>
 
-        <div class="box">
-            <h2>Not Found</h2>
-            <p>Oops... Page Not Found.</p>
-        </div>
+    <div class="box">
+      <h2>Not Found</h2>
+      <p>Oops... Page Not Found.</p>
+    </div>
 
-    </body>
+  </body>
 
 </html>
 

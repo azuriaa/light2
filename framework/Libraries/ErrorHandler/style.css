@@ -1,6 +1,6 @@
 body {
     font-family: Helvetica;
-    background-color: lightgray;
+    background-color: white;
 }
 
 h2 {
@@ -16,10 +16,7 @@ p {
     margin-left: 24%;
     margin-right: 24%;
     margin-bottom: 24px;
-    padding: 24px 24px;
-    border: 2px solid grey;
-    border-style: dashed;
+    padding: 24px 0px;
     text-align: center;
     vertical-align: middle;
-    background-color: white;
 }

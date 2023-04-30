@@ -24,8 +24,8 @@ class RequestService
     {
         return strtok(
             explode(
-                $_ENV['baseURL'],
-                $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
+                $_ENV['host'],
+                filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_URL) . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL)
             )[1],
             '?'
         );
