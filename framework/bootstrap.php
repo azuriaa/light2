@@ -35,7 +35,7 @@ function base_url(string $uri = ''): string
 function current_url(): string
 {
     $scheme = $_ENV['forceGlobalSecure'] == true ? 'https' : 'http';
-    return $scheme . '://' . filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_URL) . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+    return $scheme . '://' . $_SERVER['HTTP_HOST'] . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 }
 
 function service(string $service)
