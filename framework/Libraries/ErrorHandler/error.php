@@ -9,7 +9,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 - Internal Server Error</title>
     <style>
-      <?php require_once 'style.css' ?>
+      body {
+        font-family: Helvetica;
+        text-align: center;
+        background-color: white;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      h1 {
+        color: salmon;
+      }
+
+      p {
+        color: black;
+        opacity: 50%;
+      }
     </style>
   </head>
 

@@ -51,23 +51,23 @@ function model(string $model): \Light2\Model
 function db_connect($dsn = null, $username = null, $password = null): \Light2\Libraries\FluentPDO\Query
 {
     if (is_null($dsn) && is_null($username) && is_null($password)) {
+        $dsn = $_ENV['pdo']['dsn'];
         $username = $_ENV['pdo']['username'];
         $password = $_ENV['pdo']['password'];
-
-        if ($_ENV['pdo']['driver'] == 'mysql') {
-            $dsn = 'mysql:dbname=' . $_ENV['pdo']['database'];
-        } elseif ($_ENV['pdo']['driver'] == 'sqlite') {
-            $dsn = 'sqlite:' . ROOTPATH . '//store//' . $_ENV['pdo']['name'];
-        } else {
-            $dsn = $_ENV['pdo']['driver'] . ':' . $_ENV['pdo']['name'];
-        }
     }
 
     if (is_null(\Light2\Factories\InstanceFactory::getNamedInstance($dsn))) {
         \Light2\Factories\InstanceFactory::registerNamedInstance(
             $dsn,
             new Light2\Libraries\FluentPDO\Query(
-                new \PDO($dsn, $username, $password)
+                new \PDO(
+                    \Light2\Factories\DSNFactory::create(
+                        $dsn,
+                        ROOTPATH . '\\store\\'
+                    ),
+                    $username,
+                    $password
+                )
             )
         );
     }

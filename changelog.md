@@ -1,3 +1,7 @@
+## Light2 2.1.8
+- Perubahan env.json disederhanakan dengan dsn
+- Factory baru DSNFactory
+
 ## Light2 2.1.7
 - Perbaikan penamaan pada beberapa kasus
 - Fitur baru pada RequestService & ResponseService

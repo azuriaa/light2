@@ -31,8 +31,7 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
     "forceGlobalSecure": true,
     "environtment": "production",
     "pdo": {
-        "driver": "sqlite",
-        "database": "database.db",
+        "dsn": "sqlite:database.db",
         "username": null,
         "password": null
     }

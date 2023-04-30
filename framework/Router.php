@@ -73,7 +73,9 @@ class Router
         if (self::$notFoundHandler != null) {
             call_user_func(self::$notFoundHandler);
         } else {
-            require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/notfound.php';
+            http_response_code(404);
+            view('not_found');
+            exit(0);
         }
     }
 }
