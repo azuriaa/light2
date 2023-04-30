@@ -1,9 +1,10 @@
-## Light2 2.1.6
+## Light2 2.1.7
 - Perbaikan penamaan pada beberapa kasus
 - Fitur baru pada RequestService & ResponseService
 - Dukungan REST API
 - Header X-Powered-By dapat dihilangkan melalui config
 - Upgrade tampilan pada saat not found & internal server error
+- Refactor pada beberapa core class
 
 ## Light2 2.0.1
 - Database host tidak perlu dimasukkan ke env.json

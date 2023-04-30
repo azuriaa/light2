@@ -40,7 +40,7 @@ function current_url(): string
 
 function service(string $service)
 {
-    return Light2\Services\InstanceService::mountInstance($service);
+    return Light2\Factories\InstanceFactory::mountInstance($service);
 }
 
 function model(string $model): \Light2\Model
@@ -63,8 +63,8 @@ function db_connect($dsn = null, $username = null, $password = null): \Light2\Li
         }
     }
 
-    if (is_null(\Light2\Services\InstanceService::getNamedInstance($dsn))) {
-        \Light2\Services\InstanceService::registerNamedInstance(
+    if (is_null(\Light2\Factories\InstanceFactory::getNamedInstance($dsn))) {
+        \Light2\Factories\InstanceFactory::registerNamedInstance(
             $dsn,
             new Light2\Libraries\FluentPDO\Query(
                 new \PDO($dsn, $username, $password)
@@ -72,7 +72,7 @@ function db_connect($dsn = null, $username = null, $password = null): \Light2\Li
         );
     }
 
-    return \Light2\Services\InstanceService::getNamedInstance($dsn);
+    return \Light2\Factories\InstanceFactory::getNamedInstance($dsn);
 }
 
 function view(string $file, array $data = [], string $extension = '.php'): void

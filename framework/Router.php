@@ -19,17 +19,17 @@ class Router
         $currentRoute = '/' . $currentURI[1];
         unset($currentURI[0], $currentURI[1]);
 
-        if (key_exists($currentRoute, Router::$routeCollection)) {
-            call_user_func_array(Router::$routeCollection[$currentRoute], $currentURI);
+        if (key_exists($currentRoute, self::$routeCollection)) {
+            call_user_func_array(self::$routeCollection[$currentRoute], $currentURI);
         } else {
-            Router::runNotFoundHandler();
+            self::runNotFoundHandler();
         }
     }
 
     public static function add(string $route, callable $callback): void
     {
-        array_push(Router::$routeCollection, $route);
-        Router::$routeCollection[$route] = $callback;
+        array_push(self::$routeCollection, $route);
+        self::$routeCollection[$route] = $callback;
     }
 
     public static function controller($controller, $id = null, $middleware = null): void
@@ -55,7 +55,7 @@ class Router
         } elseif ($method == 'DELETE' && method_exists($controller, 'delete')) {
             $controller->delete($id);
         } else {
-            Router::runNotFoundHandler();
+            self::runNotFoundHandler();
         }
 
         if (isset($middleware) && method_exists($middleware, 'after')) {
@@ -65,13 +65,13 @@ class Router
 
     public static function setNotFoundHandler(callable $handler): void
     {
-        Router::$notFoundHandler = $handler;
+        self::$notFoundHandler = $handler;
     }
 
     protected static function runNotFoundHandler(): void
     {
-        if (Router::$notFoundHandler != null) {
-            call_user_func(Router::$notFoundHandler);
+        if (self::$notFoundHandler != null) {
+            call_user_func(self::$notFoundHandler);
         } else {
             require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/notfound.php';
         }

@@ -10,8 +10,8 @@ class Light2
 {
     public static function runApp(): void
     {
-        Light2::mountForceSecureHandler($_ENV['forceGlobalSecure']);
-        Light2::mountErrorHandler($_ENV['environtment']);
+        self::mountForceSecureHandler($_ENV['forceGlobalSecure']);
+        self::mountErrorHandler($_ENV['environtment']);
         Routes::register();
         Router::run();
     }
