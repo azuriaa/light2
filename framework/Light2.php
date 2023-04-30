@@ -27,12 +27,12 @@ class Light2
     protected static function mountErrorHandler(string $environtment): void
     {
         if ($environtment == 'production') {
-            require_once FRAMEWORKPATH . '/Libraries/ErrorHandler/error_handler.php';
+            require_once FRAMEWORKPATH . '\\Libraries\\ErrorHandler\\error_handler.php';
         } elseif ($environtment == 'development') {
             $whoops = new Run;
             $whoops->pushHandler(new PrettyPageHandler);
             $whoops->register();
-            require_once FRAMEWORKPATH . '/Libraries/Kint/Kint.phar';
+            require_once FRAMEWORKPATH . '\\Libraries\\Kint\\Kint.phar';
         }
     }
 }

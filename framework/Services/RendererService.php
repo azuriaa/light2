@@ -5,19 +5,19 @@ namespace Light2\Services;
 class RendererService
 {
     protected array $data;
-    protected string $extension;
+    protected string $viewPath;
     protected string $file;
 
-    public function setup(string $file, array $data = [], string $extension = '.php'): void
+    public function setup(string $viewPath, string $file, array $data = []): void
     {
+        $this->viewPath = $viewPath;
         $this->file = $file;
         $this->data = $data;
-        $this->extension = $extension;
     }
 
     public function render(): void
     {
         extract($this->data);
-        require_once APPPATH . '/views/' . $this->file . $this->extension;
+        require_once $this->viewPath . $this->file . '.php';
     }
 }

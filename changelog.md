@@ -1,6 +1,7 @@
 ## Light2 2.1.8
 - Perubahan env.json disederhanakan dengan dsn
 - Factory baru DSNFactory
+- Fix log_message tidak merekam pada development environtment
 
 ## Light2 2.1.7
 - Perbaikan penamaan pada beberapa kasus

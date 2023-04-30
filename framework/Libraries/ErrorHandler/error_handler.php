@@ -25,8 +25,6 @@ function error_handler($err = null, $str = null, $file = null, $line = null)
 }
 
 error_reporting(E_ALL);
-ini_set('log_errors', true);
-ini_set('error_log', STOREPATH . '//logs//' . date('Y-m-d') . '.log');
 ini_set('display_errors', false);
 set_exception_handler('error_handler');
 set_error_handler('error_handler');

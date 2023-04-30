@@ -4,20 +4,22 @@
 chdir(ROOTPATH);
 
 // Constants
-define('APPPATH', ROOTPATH . '/app');
-define('STOREPATH', ROOTPATH . '/store');
-define('FRAMEWORKPATH', ROOTPATH . '/framework');
+define('APPPATH', ROOTPATH . '\\app');
+define('STOREPATH', ROOTPATH . '\\store');
+define('FRAMEWORKPATH', ROOTPATH . '\\framework');
 
 // Setup
+ini_set('log_errors', true);
+ini_set('error_log', STOREPATH . '\\logs\\' . date('Y-m-d') . '.log');
 ini_set('session.save_path', STOREPATH . '/session');
-$_ENV = array_merge($_ENV, json_decode(file_get_contents(ROOTPATH . '/env.json'), true));
+$_ENV = array_merge($_ENV, json_decode(file_get_contents(ROOTPATH . '\\env.json'), true));
 
 spl_autoload_register(function ($class) {
     $namespace = strtok($class, '\\');
     if ($namespace == 'App') {
-        require_once ROOTPATH . '/' . $class . '.php';
+        require_once ROOTPATH . '\\' . $class . '.php';
     } elseif ($namespace == 'Light2') {
-        require_once FRAMEWORKPATH . '/' . ltrim($class, $namespace) . '.php';
+        require_once FRAMEWORKPATH . '\\' . ltrim($class, $namespace) . '.php';
     }
 });
 
@@ -45,7 +47,7 @@ function service(string $service)
 
 function model(string $model): \Light2\Model
 {
-    return service("\App\Models\\$model");
+    return service("\\App\\Models\\$model");
 }
 
 function db_connect($dsn = null, $username = null, $password = null): \Light2\Libraries\FluentPDO\Query
@@ -75,10 +77,10 @@ function db_connect($dsn = null, $username = null, $password = null): \Light2\Li
     return \Light2\Factories\InstanceFactory::getNamedInstance($dsn);
 }
 
-function view(string $file, array $data = [], string $extension = '.php'): void
+function view(string $file, array $data = []): void
 {
     $view = service(Light2\Services\RendererService::class);
-    $view->setup($file, $data, $extension);
+    $view->setup(APPPATH . '\\Views\\', $file, $data);
     $view->render();
 }
 
