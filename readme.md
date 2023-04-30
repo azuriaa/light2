@@ -83,10 +83,10 @@ $db->insertInto('table_a', ['key' => 'value1'])->execute();
 Kalau di dalam model, caranya begini.
 ```php
 // ini pakai builder
-$resultInsertA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute();
+$resultA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute();
 
 // pake query manual juga bisa
-$resultSelectB = $this->connect()->getPdo()->query('SELECT * FROM table_b')->fetchAll();
+$resultB = $this->connect()->getPdo()->query('SELECT * FROM table_b')->fetchAll();
 ```
 
 ## External Library
