@@ -1,7 +1,5 @@
-## Light2 2.1.1
+## Light2 2.1.4
 - Perbaikan penamaan pada beberapa kasus
-
-## Light2 2.1.0
 - Fitur baru pada RequestService & ResponseService
 - Dukungan REST API
 - Closing koneksi database pada Model dibuat lebih ketat
