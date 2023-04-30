@@ -61,7 +61,7 @@ abstract class Model
         return $result;
     }
 
-    public function update($data, $id)
+    public function update(array $data, $id)
     {
 
         $result = $this
