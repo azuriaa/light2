@@ -1,18 +1,17 @@
 # Light2
 Project buat programmer yang males kalo ketemu bloatware.
 
-## Penjelasan
-Ini adalah sebuah project sederhana dan memang dibuat sesederhana mungkin untuk meminimalisir latensi response.
+Light2 ejaan "Light Two" dibaca "Lhaa..itu" adalah sebuah project sederhana dan memang dibuat sesederhana 
+mungkin untuk meminimalisir latensi response.
 
-Saat environtment di set ke production, Kint & Whoops tidak di load, jangan sampai masih ada kayak gini
+Awalnya si pengembang ini mencari php framework tapi tidak menemukan yang bisa 
+dibawah 10ms response. Akhirnya pengembang membuat project sendiri dari scratch. Setelah 2 tahun riset 
+akhirnya terselesaikan tujuan project ini.
 
-```php
-// ini helper kint, fungsinya mirip var_dump()
-// bedanya kint lebih enak dibaca
-d($entahApaItu); // harus dihapus ketika production
-```
-
-yang lupa dihapus, nantinya bikin error.
+Light2, Light artinya ringan, angka 2 artinya project kedua dan sebenarnya tidak ada hubungannya 
+dengan versioning project ini, Light2 sendiri dibaca "Lhaa..itu" merupakan plesetan dari 
+ejaan inggris "LightTwo" karena pengembang ketika berhasil menyelesaikan tujuan utama project ini 
+merasa "Lhaa.. itu, ini dia yang bener".
 
 ## Setup
 Seperti project umumnya, front controller ada di public_html/index.php.
@@ -39,6 +38,16 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
     }
 }
 ```
+
+Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
+
+```php
+// ini helper kint, fungsinya mirip var_dump()
+// bedanya kint lebih enak dibaca
+d($entahApaItu); // harus dihapus ketika production
+```
+
+yang lupa dihapus, karena nantinya bikin error.
 
 ## Routing
 Route dapat diatur pada app/Config/Routes.php.
