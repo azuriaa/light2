@@ -24,7 +24,7 @@ Ubah dan arahkan ROOTPATH ke root folder project yang ditentukan.
 define('ROOTPATH', realpath(__DIR__ . '/../project_gabut_v2/'));
 ```
 
-Setelah itu set env.json pada root project nya, misalnya
+Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
 
 ```json
 {
@@ -43,13 +43,18 @@ Setelah itu set env.json pada root project nya, misalnya
 ## Routing
 Route dapat diatur pada app/Config/Routes.php.
 
-Cara kerja routing pada project ini menggubanan penokenan,
-route akan ditoken berdasarkan karakter slash, setelah route ditoken slash berikutnya
+Cara kerja routing pada project ini adalah dengan cara ditoken.
+
+URI akan ditoken berdasarkan karakter slash seperti di bawah ini.
+
+```/```
+
+Hasil penokenan pertama akan menjadi route dan hasil penokenan berikutnya
 akan menjadi params suatu callback route.
 
-Jadi tidak diijinkan register route menggunakan slash lebih dari satu.
+Jadi jangan register route yang menggunakan slash lebih dari satu.
 
-Lalu kenapa milih ditoken daripada pakai regex, ya karena speed nya kencengan pake token ketimbang regex.
+Alasan ditoken daripada regex, karena performa nya kencengan pake token.
 
 ### Contoh Benar
 ```php
@@ -80,12 +85,14 @@ $model = model('ApapunItuModel');
 $class = new \App\DiFolderMana\ClassApapunItu;
 $model = new \App\Models\ApapunItuModel;
 ```
+
 Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
 
 ## Connect Database
 Project ini menggunakan FluentPDO.
 
 Kalau di dalam model, begini caranya.
+
 ```php
 // ini pakai builder
 $resultA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute();
