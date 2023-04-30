@@ -116,9 +116,28 @@ class RequestService
     /**
      * Gets the body of the message.
      * 
+     * @return mixed
      */
     public function getBody()
     {
         return file_get_contents('php://input');
+    }
+
+    /**
+     * Getting Data
+     * 
+     * The getVar() method will pull from $_REQUEST, so will return any data from 
+     * $_GET, $POST, or $_COOKIE.
+     * 
+     * @param mixed $id
+     * @return mixed
+     */
+    public function getVar($id = null)
+    {
+        if (isset($id)) {
+            return isset($_REQUEST[$id]) ? $_REQUEST[$id] : null;
+        } else {
+            return $_REQUEST;
+        }
     }
 }

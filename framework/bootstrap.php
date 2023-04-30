@@ -10,7 +10,7 @@ define('FRAMEWORKPATH', ROOTPATH . '/framework');
 
 // Setup
 ini_set('session.save_path', STOREPATH . '/session');
-$_ENV = json_decode(file_get_contents(ROOTPATH . '/env.json'), true);
+$_ENV = array_merge($_ENV, json_decode(file_get_contents(ROOTPATH . '/env.json'), true));
 define('BASEURL', $_ENV['baseURL']);
 
 spl_autoload_register(function ($class) {

@@ -148,4 +148,172 @@ class ResponseService
         $header = $this->getHeaders();
         return isset($header[$name]) ? [$name => $header[$name]] : [];
     }
+
+    /**
+     * Sets the content type this response
+     * 
+     * @param string $mime
+     * @param string $charset
+     */
+    public function setContentType(string $mime, string $charset = 'UTF-8'): void
+    {
+        header("Content-Type: $mime; charset=$charset");
+    }
+
+    /**
+     * Generic response method
+     * 
+     * @param array $data
+     * @param int $statusCode
+     */
+    public function respond(array $data = [], int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Generic failure response
+     * 
+     * @param array $data
+     * @param int $statusCode
+     */
+    public function fail(array $data = [], int $statusCode = 400): void
+    {
+        http_response_code($statusCode);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Item created response
+     * 
+     * @param array $data
+     */
+    public function respondCreated(array $data = []): void
+    {
+        http_response_code(201);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Command executed by no response required
+     * 
+     * @param array $data
+     */
+    public function respondNoContent(array $data = []): void
+    {
+        http_response_code(204);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Client isn't authorized
+     * 
+     * @param array $data
+     */
+    public function failUnauthorized(array $data = []): void
+    {
+        http_response_code(401);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Forbidden action
+     * 
+     * @param array $data
+     */
+    public function failForbidden(array $data = []): void
+    {
+        http_response_code(403);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Resource Not Found
+     * 
+     * @param array $data
+     */
+    public function failNotFound(array $data = []): void
+    {
+        http_response_code(404);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Resource already exists
+     * 
+     * @param array $data
+     */
+    public function failResourceExists(array $data = []): void
+    {
+        http_response_code(409);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Resource previously deleted
+     * 
+     * @param array $data
+     */
+    public function failResourceGone(array $data = []): void
+    {
+        http_response_code(410);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Client made too many requests
+     * 
+     * @param array $data
+     */
+    public function failTooManyRequests(array $data = []): void
+    {
+        http_response_code(429);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Sets the appropriate status code to use when there is a server error.
+     * 
+     * @param array $data
+     * @param int $statusCode
+     */
+    public function failServerError(array $data = [], int $statusCode = 500): void
+    {
+        http_response_code($statusCode);
+        $this->setContentType('application/json');
+        if ($data != []) {
+            echo json_encode($data);
+        }
+    }
 }

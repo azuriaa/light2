@@ -4,59 +4,88 @@ namespace Light2;
 
 abstract class Model
 {
-    public string $table = '';
-    public string $primaryKey = '';
-    protected $db = null;
+    public string $table;
+    public string $primaryKey;
+    public $db = null;
 
-    public function __construct()
+    public function connect(): Model
     {
-        $this->db = db_connect();
+        if (is_null($this->db)) {
+            $this->db = db_connect();
+        }
+
+        return $this;
     }
 
-    public function __destruct()
+    public function disconnect(): bool
     {
-        $this->db->close();
-        $this->db = null;
+        if (!is_null($this->db)) {
+            $this->db->close();
+            $this->db = null;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function findAll()
     {
-        return $this->db->from($this->table)->fetchAll();
+        $result = $this->connect()->db->from($this->table)->fetchAll();
+        $this->disconnect();
+
+        return $result;
     }
 
     public function find($id)
     {
-        return $this
+        $result = $this
+            ->connect()
             ->db
             ->from($this->table)
             ->where($this->primaryKey, $id)
             ->fetch();
+        $this->disconnect();
+
+        return $result;
     }
 
     public function insert(array $data)
     {
-        return $this
+        $result = $this
+            ->connect()
             ->db
             ->insertInto($this->table, $data)
             ->execute();
+        $this->disconnect();
+
+        return $result;
     }
 
     public function update($data, $id)
     {
-        return $this
+
+        $result = $this
+            ->connect()
             ->db
             ->update($this->table)
             ->set($data)
             ->where($this->primaryKey, $id)
             ->execute();
+        $this->disconnect();
+
+        return $result;
     }
 
     public function delete($id)
     {
-        return $this
+        $result = $this
+            ->connect()
             ->db
             ->deleteFrom($this->table)
             ->where($this->primaryKey, $id)
             ->execute();
+        $this->disconnect();
+
+        return $result;
     }
 }

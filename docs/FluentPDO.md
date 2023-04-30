@@ -1,10 +1,13 @@
-## Getting Started
+## FluentPDO
 
 Create a new PDO instance, and pass the instance to FluentPDO:
 
 ```php
 $pdo = new PDO('mysql:dbname=fluentdb', 'user', 'password');
-$fluent = new \Envms\FluentPDO\Query($pdo);
+$fluent = new \Light2\Libraries\FluentPDO\Query($pdo);
+
+$fluent = db_connect('mysql:dbname=fluentdb', 'user', 'password'); // shorter version
+
 ```
 
 Then, creating queries is quick and easy:

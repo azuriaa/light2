@@ -1,5 +1,6 @@
-# Kint - debugging helper for PHP developers
-## Usage
+## Kint
+
+Usage
 
 ```php
 <?php
