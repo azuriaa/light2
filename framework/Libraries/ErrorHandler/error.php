@@ -14,12 +14,8 @@
   </head>
 
   <body>
-
-    <div class="box">
-      <h2>Internal Server Error</h2>
-      <p>Oops... Something went wrong.</p>
-    </div>
-
+    <h1>Internal Server Error</h1>
+    <p>Oops... Something went wrong.</p>
   </body>
 
 </html>

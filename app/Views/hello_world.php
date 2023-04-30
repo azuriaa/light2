@@ -9,7 +9,13 @@
     <style>
       body {
         font-family: Helvetica;
+        text-align: center;
         background-color: white;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
 
       h1 {
@@ -17,28 +23,17 @@
       }
 
       p {
+        color: black;
         opacity: 50%;
-      }
-
-      .box {
-        margin-top: 96px;
-        margin-left: 28%;
-        margin-right: 28%;
-        margin-bottom: 24px;
-        padding: 96px 0px;
-        text-align: center;
-        vertical-align: middle;
       }
     </style>
   </head>
 
   <body>
-    <div class="box">
-      <h1>Hello World!</h1>
-      <p>
-        Hello... Dah gitu aja :v
-      </p>
-    </div>
+    <h1>Hello World!</h1>
+    <p>
+      Hello... Dah gitu aja :v
+    </p>
   </body>
 
 </html>

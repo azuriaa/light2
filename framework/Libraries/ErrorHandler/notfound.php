@@ -14,12 +14,8 @@
   </head>
 
   <body>
-
-    <div class="box">
-      <h2>Not Found</h2>
-      <p>Oops... Page Not Found.</p>
-    </div>
-
+    <h1>Page Not Found</h1>
+    <p>The page you're looking for does not seem to exist.</p>
   </body>
 
 </html>
