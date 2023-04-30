@@ -1,8 +1,8 @@
-## Light2 2.1.5
+## Light2 2.1.6
 - Perbaikan penamaan pada beberapa kasus
 - Fitur baru pada RequestService & ResponseService
 - Dukungan REST API
-- Closing koneksi database pada Model dibuat lebih ketat
+- Header X-Powered-By dapat dihilangkan melalui config
 - Upgrade tampilan pada saat not found & internal server error
 
 ## Light2 2.0.1

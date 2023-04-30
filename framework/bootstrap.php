@@ -43,12 +43,12 @@ function service(string $service)
     return Light2\Services\InstanceService::mountInstance($service);
 }
 
-function model(string $model)
+function model(string $model): \Light2\Model
 {
     return service("\App\Models\\$model");
 }
 
-function db_connect($dsn = null, $username = null, $password = null)
+function db_connect($dsn = null, $username = null, $password = null): \Light2\Libraries\FluentPDO\Query
 {
     if (is_null($dsn) && is_null($username) && is_null($password)) {
         $username = $_ENV['pdo']['username'];
@@ -63,9 +63,16 @@ function db_connect($dsn = null, $username = null, $password = null)
         }
     }
 
-    return new Light2\Libraries\FluentPDO\Query(
-        new \PDO($dsn, $username, $password)
-    );
+    if (is_null(\Light2\Services\InstanceService::getNamedInstance($dsn))) {
+        \Light2\Services\InstanceService::registerNamedInstance(
+            $dsn,
+            new Light2\Libraries\FluentPDO\Query(
+                new \PDO($dsn, $username, $password)
+            )
+        );
+    }
+
+    return \Light2\Services\InstanceService::getNamedInstance($dsn);
 }
 
 function view(string $file, array $data = [], string $extension = '.php'): void
@@ -77,6 +84,10 @@ function view(string $file, array $data = [], string $extension = '.php'): void
 
 // App Config
 date_default_timezone_set(\App\Config\App::$defaultTimezone);
+
+if (!\App\Config\App::$exposePHP) {
+    header_remove('X-Powered-By');
+}
 
 // Run the app
 Light2\Light2::runApp();

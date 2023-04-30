@@ -69,9 +69,7 @@ $model = new \App\Models\ApapunItuModel;
 Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
 
 ## Connect Database
-Gunakan helper db_connect() nantinya akan membuat instance baru.
-Sengaja gak dibikin singleton ya karena lebih kuenceng
-pake multiple connection.
+Gunakan helper db_connect().
 ```php
 // ngambil parameter dari env.json
 $db = db_connect();
@@ -82,19 +80,13 @@ $db = db_connect('mysql:host=localhost;dbname=light', 'username', 'password');
 // langsung bisa dipakai
 $db->insertInto('table_a', ['key' => 'value1'])->execute();
 ```
-Kalau di dalam model mau bikin method selain method bawaan, untuk mengambil instance nya begini
+Kalau di dalam model, caranya begini.
 ```php
-// connect dulu
-$this->connect();
-
 // ini pakai builder
-$resultInsertA = $this->db->insertInto('table_a', ['key' => 'value1'])->execute();
+$resultInsertA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute();
 
 // pake query manual juga bisa
-$resultSelectB = $this->db->getPdo()->query('SELECT * FROM table_b')->fetchAll();
-
-// disconnect kalau udah
-$this->disconnect();
+$resultSelectB = $this->connect()->getPdo()->query('SELECT * FROM table_b')->fetchAll();
 ```
 
 ## External Library

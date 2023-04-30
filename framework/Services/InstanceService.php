@@ -15,4 +15,24 @@ class InstanceService
 
         return InstanceService::$instances[$service];
     }
+
+    public static function getNamedInstance(string $name)
+    {
+        if (array_key_exists($name, InstanceService::$instances)) {
+            return InstanceService::$instances[$name];
+        }
+
+        return null;
+    }
+
+    public static function registerNamedInstance(string $name, $instance): bool
+    {
+        if (!array_key_exists($name, InstanceService::$instances)) {
+            array_push(InstanceService::$instances, $name);
+            InstanceService::$instances[$name] = $instance;
+            return true;
+        }
+
+        return false;
+    }
 }
