@@ -112,12 +112,12 @@ class DashboardMiddleware
 Cara mengaktifkanya dapat diseting pada ```app/Config/Routes.php```.
 
 ```php
-// Menggunakan controller loader
+// menggunakan controller loader
 Router::add('/dashboard', function ($id = null) {
     Router::controller(DashboardController::class, $id, DashboardMiddleware::class);
 });
 
-// Atau bisa juga manual
+// atau bisa juga manual
 Router::add('/dashboard', function ($id = null) {
     DashboardMiddleware::before();
     Router::controller(DashboardController::class, $id);
@@ -144,8 +144,7 @@ Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework 
 Model di sini adalah layer yang berkomunikasi ke suatu tabel di database. Meskipun database
 bisa connect darimana saja, tapi alangkah baiknya kalau terstruktur rapi di folder ```app/Models/```
 
-Misalnya membuat model untuk tabel user, maka buat file ```app/Models/UserModel.php dan isikan
-minimal seperti di bawah ini.
+Misalnya membuat model untuk tabel user, maka buat file ```app/Models/UserModel.php``` dan isi minimal seperti di bawah ini.
 
 ```php
 <?php
