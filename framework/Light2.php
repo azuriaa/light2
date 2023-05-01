@@ -27,7 +27,7 @@ class Light2
     protected static function mountErrorHandler(string $environtment): void
     {
         if ($environtment == 'production') {
-            require_once FRAMEWORKPATH . '\\Libraries\\ErrorHandler\\error_handler.php';
+            require_once FRAMEWORKPATH . '\\Libraries\\Light2ErrorHandler\\error_handler.php';
         } elseif ($environtment == 'development') {
             $whoops = new Run;
             $whoops->pushHandler(new PrettyPageHandler);

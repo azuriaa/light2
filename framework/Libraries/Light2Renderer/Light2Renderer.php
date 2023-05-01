@@ -1,18 +1,20 @@
 <?php
 
-namespace Light2\Services;
+namespace Light2\Libraries\Light2Renderer;
 
-class RendererService
+class Light2Renderer
 {
     protected array $data;
     protected string $viewPath;
     protected string $file;
 
-    public function setup(string $viewPath, string $file, array $data = []): void
+    public function setup(string $viewPath, string $file, array $data = []): self
     {
         $this->viewPath = $viewPath;
         $this->file = $file;
         $this->data = $data;
+
+        return $this;
     }
 
     public function render(): void

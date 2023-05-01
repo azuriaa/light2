@@ -24,7 +24,6 @@ function error_handler($err = null, $str = null, $file = null, $line = null)
     require_once 'error.php';
 }
 
-error_reporting(E_ALL);
 ini_set('display_errors', false);
 set_exception_handler('error_handler');
 set_error_handler('error_handler');

@@ -9,6 +9,7 @@ define('STOREPATH', ROOTPATH . '\\store');
 define('FRAMEWORKPATH', ROOTPATH . '\\framework');
 
 // Setup
+error_reporting(E_ALL);
 ini_set('log_errors', true);
 ini_set('error_log', STOREPATH . '\\logs\\' . date('Y-m-d') . '.log');
 ini_set('session.save_path', STOREPATH . '/session');
@@ -79,9 +80,9 @@ function db_connect($dsn = null, $username = null, $password = null): \Light2\Li
 
 function view(string $file, array $data = []): void
 {
-    $view = service(Light2\Services\RendererService::class);
-    $view->setup(APPPATH . '\\Views\\', $file, $data);
-    $view->render();
+    service(Light2\Libraries\Light2Renderer\Light2Renderer::class)
+        ->setup(APPPATH . '\\Views\\', $file, $data)
+        ->render();
 }
 
 // App Config
