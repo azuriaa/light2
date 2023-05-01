@@ -9,19 +9,16 @@ abstract class Model
     public string $table;
     public string $primaryKey;
     protected Query $db;
-    protected bool $useEnv = true;
     protected string $dsn;
-    protected string $username;
-    protected string $password;
+    protected string $username = '';
+    protected string $password = '';
 
     public function connect(): Query
     {
-        if (!isset($this->db)) {
-            if ($this->useEnv) {
-                $this->db = db_connect();
-            } else {
-                $this->db = db_connect($this->dsn, $this->username, $this->password);
-            }
+        if (!isset($this->db) && !isset($this->dsn)) {
+            $this->db = db_connect();
+        } elseif (!isset($this->db) && isset($this->dsn)) {
+            $this->db = db_connect($this->dsn, $this->username, $this->password);
         }
 
         return $this->db;
