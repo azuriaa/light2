@@ -1,7 +1,7 @@
 # Light2
 Project buat programmer yang males kalo ketemu bloatware.
 
-Latar belakang project ini adalah bermula ketika mencari framework PHP, namun tidak menemukan framework dengan response time kurang dari 10ms meskipun hanya menampilkan halaman kosong, environtment diset ke production, serta sudah mengaktifkan PHP OPCache & JIT Compilation. Dengan begitu, untuk mencapai tujuan tersebut terpaksa membuat sendiri dari scratch, hingga akhirnya jadilah project ini.
+Latar belakang project ini adalah bermula ketika mencari framework PHP, namun tidak menemukan framework dengan response time kurang dari 10ms meskipun hanya menampilkan halaman kosong, environtment diset ke production, serta sudah mengaktifkan OPcache & JIT Compilation. Dengan begitu, untuk mencapai tujuan tersebut terpaksa membuat sendiri dari scratch, hingga akhirnya jadilah project ini.
 
 Light2, Light artinya ringan, sesuai namanya project ini harus bisa mencapai response time dibawah 10ms ketika tidak ada beban. Angka 2 artinya project kedua dan sebenarnya tidak ada hubungannya dengan versioning project ini, project ini berbasis pada project pertama ```AzurinCore``` yang secara tidak sengaja project tersebut hilang ketika akan dibongkar, akhirnya terpaksa membuat project baru lagi dari scratch. Light2 sendiri dibaca "Lhaa..itu" merupakan plesetan dari ejaan inggris "LightTwo" karena pengembang ketika berhasil menyelesaikan tujuan utama project ini merasa "Lhaa.. itu, itu baru bener!".
 
