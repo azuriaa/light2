@@ -14,7 +14,7 @@ ejaan inggris "LightTwo" karena pengembang ketika berhasil menyelesaikan tujuan 
 merasa "Lhaa.. itu, ini dia yang bener".
 
 ## Setup
-Seperti project umumnya, front controller ada di public_html/index.php.
+Seperti project pada umumnya, front controller ada di public_html/index.php.
 
 Ubah dan arahkan ROOTPATH ke root folder project yang ditentukan.
 
@@ -42,9 +42,8 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
 Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
 
 ```php
-// ini helper kint, fungsinya mirip var_dump()
-// bedanya kint lebih enak dibaca
-d($entahApaItu); // harus dihapus ketika production
+// ini helper kint, mirip var_dump(), bedanya lebih enak dibaca
+d($entahApaItu);
 ```
 
 yang lupa dihapus, karena nantinya bikin error.
@@ -54,14 +53,12 @@ Route dapat diatur pada app/Config/Routes.php.
 
 Cara kerja routing pada project ini adalah dengan cara ditoken.
 
-URI akan ditoken berdasarkan karakter slash seperti di bawah ini.
-
-```/```
+URI akan ditoken berdasarkan karakter ```/```.
 
 Hasil penokenan pertama akan menjadi route dan hasil penokenan berikutnya
 akan menjadi params suatu callback route.
 
-Jadi jangan register route yang menggunakan slash lebih dari satu.
+Jadi jangan meregister route yang menggunakan slash lebih dari satu.
 
 Alasan ditoken daripada regex, karena performa nya kencengan pake token.
 
@@ -119,7 +116,7 @@ $fluent = db_connect('mysql:dbname=fluentdb', 'user', 'password');
 $fluent = db_connect(); 
 ```
 
-Lalu, membuat kueri kini dapat dilakukan dengan cepat dan mudah:
+Cara membuat kueri:
 
 ```php
 $query = $fluent->from('comment')
@@ -128,7 +125,7 @@ $query = $fluent->from('comment')
              ->limit(5);
 ```
 
-hasilnya seperti di bawah ini:
+Hasilnya:
 
 ```mysql
 SELECT comment.*
@@ -140,7 +137,7 @@ LIMIT 5
 ```
 
 Untuk mengambil data dari SELECT, 
-yang dilakukan cukup melakukan loop dari array hasil kembalian:
+Cukup melakukan loop dari array hasil kembalian:
 
 ```php
 foreach ($query as $row) {
@@ -150,7 +147,7 @@ foreach ($query as $row) {
 
 ### Smart Join Builder
 
-Mari mulai dengan JOIN tradisional, seperti di bawah ini:
+Ini cara JOIN secara tradisional:
 
 ```php
 $query = $fluent->from('article')
@@ -158,8 +155,10 @@ $query = $fluent->from('article')
              ->select('user.name');
 ```
 
-Itu cukup ribet. Jika tabel sudah menggunakan nama primary key dan foreign key yang tepat,
-kueri di atas dapat dipersingkat menjadi:
+Ribet, kan?
+
+Jika tabel sudah menggunakan penamaan primary key dan foreign key yang sesuai,
+maka kueri dapat dipersingkat menjadi:
 
 ```php
 $query = $fluent->from('article')
@@ -167,8 +166,9 @@ $query = $fluent->from('article')
              ->select('user.name');
 ```
 
-Sudah lebih baik, tetapi masih kurang ideal. 
-Meski begitu, masih lebih simple untuk **tidak menulis JOIN**:
+Mendingan, tapi masih kurang. 
+
+Lebih simple lagi kalau bisa **tanpa JOIN**:
 
 ```php
 $query = $fluent->from('article')
@@ -176,9 +176,9 @@ $query = $fluent->from('article')
 ```
 
 Keren, kan? JOIN otomatis dibuatkan,
-cukup dengan cara menambahkan foreign key tabel ke kolom yang diminta.
+cukup dengan cara menambahkan foreign key tabel ke kolom yang dituju.
 
-Ketiga di atas akan menghasilkan kueri yang sama seperti di bawah ini:
+Dari ketiga cara di atas akan menghasilkan kueri yang sama seperti di bawah ini:
 
 ```mysql
 SELECT article.*, user.name 
@@ -187,8 +187,6 @@ LEFT JOIN user ON user.id = article.user_id
 ```
 
 ##### Menutup Koneksi
-
-Terakhir, membebaskan resource:
 
  ```php
 $fluent->close();
@@ -200,7 +198,7 @@ $fluent->close();
 
 ```php
 $query = $fluent->from('article')->where('id', 1)->fetch();
-$query = $fluent->from('user', 1)->fetch(); // shorter version if selecting one row by primary key
+$query = $fluent->from('user', 1)->fetch(); // versi ringkas
 ```
 
 ##### INSERT
@@ -209,7 +207,7 @@ $query = $fluent->from('user', 1)->fetch(); // shorter version if selecting one 
 $values = array('title' => 'article 1', 'content' => 'content 1');
 
 $query = $fluent->insertInto('article')->values($values)->execute();
-$query = $fluent->insertInto('article', $values)->execute(); // shorter version
+$query = $fluent->insertInto('article', $values)->execute(); // versi ringkas
 ```
 
 ##### UPDATE
@@ -218,14 +216,14 @@ $query = $fluent->insertInto('article', $values)->execute(); // shorter version
 $set = array('published_at' => new FluentLiteral('NOW()'));
 
 $query = $fluent->update('article')->set($set)->where('id', 1)->execute();
-$query = $fluent->update('article', $set, 1)->execute(); // shorter version if updating one row by primary key
+$query = $fluent->update('article', $set, 1)->execute(); // versi ringkas
 ```
 
 ##### DELETE
 
 ```php
 $query = $fluent->deleteFrom('article')->where('id', 1)->execute();
-$query = $fluent->deleteFrom('article', 1)->execute(); // shorter version if deleting one row by primary key
+$query = $fluent->deleteFrom('article', 1)->execute(); // versi ringkas
 ```
 
 ***Note**: kueri INSERT, UPDATE dan DELETE hanya akan dijalankan setelah memanggil `->execute()`*
