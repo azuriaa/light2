@@ -91,5 +91,9 @@ if (!\App\Config\App::$exposePHP) {
     header_remove('X-Powered-By');
 }
 
+if (\App\Config\App::$autoloadComposer) {
+    require_once ROOTPATH . '\\vendor\\autoload.php';
+}
+
 // Run the app
 Light2\Light2::runApp();

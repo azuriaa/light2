@@ -1,6 +1,7 @@
-## Light2 2.2.1
+## Light2 2.2.2
 - PDO DSN untuk sqlite sekarang otomatis diarahkan ke folder store
 - Dukungan view template syntax ```{{ variabel }}``` jika file berupa html
+- Dukungan autoload composer yang dapat diaktifkan pada config.
 
 ## Light2 2.1.7
 - Perbaikan penamaan pada beberapa kasus
