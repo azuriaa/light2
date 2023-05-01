@@ -24,7 +24,10 @@ class RendererService
             $view = file_get_contents($this->viewPath . $this->file . '.html');
             $keys = array_keys($this->data);
             foreach ($keys as $key) {
-                $view = str_replace("{{ $key }}", htmlspecialchars($this->data[$key]), $view);
+                if (is_array($this->data[$key])) {
+                    $this->data[$key] = json_encode($this->data[$key]);
+                }
+                $view = str_replace("{{ $key }}", $this->data[$key], $view);
             }
             echo $view;
         } else {
