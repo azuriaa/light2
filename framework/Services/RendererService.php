@@ -17,7 +17,18 @@ class RendererService
 
     public function render(): void
     {
-        extract($this->data);
-        require_once $this->viewPath . $this->file . '.php';
+        if (file_exists($this->viewPath . $this->file . '.php')) {
+            extract($this->data);
+            require_once $this->viewPath . $this->file . '.php';
+        } elseif (file_exists($this->viewPath . $this->file . '.html')) {
+            $view = file_get_contents($this->viewPath . $this->file . '.html');
+            $keys = array_keys($this->data);
+            foreach ($keys as $key) {
+                $view = str_replace("{{ $key }}", htmlspecialchars($this->data[$key]), $view);
+            }
+            echo $view;
+        } else {
+            throw new \Exception("File $this->file.php or $this->file.html does not exist.");
+        }
     }
 }

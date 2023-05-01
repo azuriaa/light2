@@ -37,6 +37,7 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
     }
 }
 ```
+***Note**: jika menggunakan database SQLite maka database akan diarahkan ke folder store`*
 
 Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
 
@@ -109,7 +110,7 @@ $resultA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute
 $resultB = $this->connect()->getPdo()->query('SELECT * FROM table_b')->fetchAll();
 ```
 
-Kalau di luar model, begini caranya.
+Kalau di luar model atau di file manapun, begini caranya.
 
 ```php
 $fluent = db_connect('mysql:dbname=fluentdb', 'user', 'password');
@@ -118,7 +119,7 @@ $fluent = db_connect('mysql:dbname=fluentdb', 'user', 'password');
 $fluent = db_connect(); 
 ```
 
-Then, creating queries is quick and easy:
+Lalu, membuat kueri kini dapat dilakukan dengan cepat dan mudah:
 
 ```php
 $query = $fluent->from('comment')
@@ -127,7 +128,7 @@ $query = $fluent->from('comment')
              ->limit(5);
 ```
 
-which would build the query below:
+hasilnya seperti di bawah ini:
 
 ```mysql
 SELECT comment.*
@@ -138,7 +139,8 @@ ORDER BY article.published_at DESC
 LIMIT 5
 ```
 
-To get data from the select, all we do is loop through the returned array:
+Untuk mengambil data dari SELECT, 
+yang dilakukan cukup melakukan loop dari array hasil kembalian:
 
 ```php
 foreach ($query as $row) {
@@ -146,9 +148,9 @@ foreach ($query as $row) {
 }
 ```
 
-### Using the Smart Join Builder
+### Smart Join Builder
 
-Let's start with a traditional join, below:
+Mari mulai dengan JOIN tradisional, seperti di bawah ini:
 
 ```php
 $query = $fluent->from('article')
@@ -156,7 +158,8 @@ $query = $fluent->from('article')
              ->select('user.name');
 ```
 
-That's pretty verbose, and not very smart. If your tables use proper primary and foreign key names, you can shorten the above to:
+Itu cukup ribet. Jika tabel sudah menggunakan nama primary key dan foreign key yang tepat,
+kueri di atas dapat dipersingkat menjadi:
 
 ```php
 $query = $fluent->from('article')
@@ -164,16 +167,18 @@ $query = $fluent->from('article')
              ->select('user.name');
 ```
 
-That's better, but not ideal. However, it would be even easier to **not write any joins**:
+Sudah lebih baik, tetapi masih kurang ideal. 
+Meski begitu, masih lebih simple untuk **tidak menulis JOIN**:
 
 ```php
 $query = $fluent->from('article')
              ->select('user.name');
 ```
 
-Awesome, right? FluentPDO is able to build the join for you, by you prepending the foreign table name to the requested column.
+Keren, kan? JOIN otomatis dibuatkan,
+cukup dengan cara menambahkan foreign key tabel ke kolom yang diminta.
 
-All three snippets above will create the exact same query:
+Ketiga di atas akan menghasilkan kueri yang sama seperti di bawah ini:
 
 ```mysql
 SELECT article.*, user.name 
@@ -181,15 +186,15 @@ FROM article
 LEFT JOIN user ON user.id = article.user_id
 ```
 
-##### Close your connection
+##### Menutup Koneksi
 
-Finally, it's always a good idea to free resources as soon as they are done with their duties:
- 
+Terakhir, membebaskan resource:
+
  ```php
 $fluent->close();
 ```
 
-### CRUD Query Examples
+### Contoh Kueri CRUD
 
 ##### SELECT
 
@@ -223,7 +228,7 @@ $query = $fluent->deleteFrom('article')->where('id', 1)->execute();
 $query = $fluent->deleteFrom('article', 1)->execute(); // shorter version if deleting one row by primary key
 ```
 
-***Note**: INSERT, UPDATE and DELETE queries will only run after you call `->execute()`*
+***Note**: kueri INSERT, UPDATE dan DELETE hanya akan dijalankan setelah memanggil `->execute()`*
 
 ## External Library
 - Kint 5.0.1

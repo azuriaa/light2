@@ -1,7 +1,6 @@
-## Light2 2.1.8
-- Perubahan env.json disederhanakan dengan dsn
-- Factory baru DSNFactory
-- Fix log_message tidak merekam pada development environtment
+## Light2 2.2.1
+- PDO DSN untuk sqlite sekarang otomatis diarahkan ke folder store
+- Dukungan view template syntax ```{{ variabel }}``` jika file berupa html
 
 ## Light2 2.1.7
 - Perbaikan penamaan pada beberapa kasus
@@ -15,8 +14,6 @@
 - Database host tidak perlu dimasukkan ke env.json
 - Refactoring beberapa core project
 - Fix getHeader pada response & request
-
-## Light2 2.0.0
 - Perubahan arsitektur software yang mendukung procedural & object oriented
 - Dukungan database PDO
 - Tool untuk development Kint & Whoops
