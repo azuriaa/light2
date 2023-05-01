@@ -6,16 +6,14 @@ Latar belakang project ini adalah bermula ketika mencari framework PHP, namun ti
 Light2, Light artinya ringan, sesuai namanya project ini harus bisa mencapai response time dibawah 10ms ketika tidak ada beban. Angka 2 artinya project kedua dan sebenarnya tidak ada hubungannya dengan versioning project ini, project ini berbasis pada project pertama ```AzurinCore``` yang secara tidak sengaja project tersebut hilang ketika akan dibongkar, akhirnya terpaksa membuat project baru lagi dari scratch. Light2 sendiri dibaca "Lhaa..itu" merupakan plesetan dari ejaan inggris "LightTwo" karena sewaktu berhasil menyelesaikan tujuan utama project ini merasa "Lhaa.. itu, itu baru bener!".
 
 ## Setup
-Seperti project pada umumnya, front controller ada di public_html/index.php.
-
-Ubah dan arahkan ROOTPATH ke root folder project yang ditentukan.
+Seperti project pada umumnya, front controller ada di ```public_html/index.php```. Ubah dan arahkan ROOTPATH ke root folder project yang ditentukan.
 
 ```php
 // misalnya
 define('ROOTPATH', realpath(__DIR__ . '/../project_gabut_v2/'));
 ```
 
-Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
+Lalu atur konfigurasi pada ```env.json``` yang ada pada ROOTPATH, misalnya
 
 ```json
 {
@@ -33,6 +31,7 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
 
 ***Note**: jika menggunakan database SQLite maka database akan diarahkan ke folder store*
 
+Lalu atur juga konfigurasi pada ```app/Config/App.php``` jika diperlukan.
 Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
 
 ```php
@@ -43,16 +42,13 @@ d($entahApaItu);
 yang lupa dihapus, karena nantinya bikin error.
 
 ## Routing
-Route dapat diatur pada ```app/Config/Routes.php```. Cara kerja routing pada project ini adalah dengan cara ditoken.
+Route dapat diatur pada ```app/Config/Routes.php```.
 
-URI akan ditoken berdasarkan karakter ```/```.
+Cara kerja routing pada project ini adalah dengan cara ditoken. URI akan ditoken berdasarkan karakter ```/```.
 Hasil penokenan pertama akan menjadi route dan hasil penokenan berikutnya
 akan menjadi params suatu callback route.
 Jadi jangan meregister route yang menggunakan slash lebih dari satu.
-
 Alasan ditoken daripada regex, karena performa nya kencengan pake token.
-
-#### Contoh
 
 ```php
 Router::add('/page', function () {
@@ -70,17 +66,17 @@ Router::add('/page/to/something', function () {
 
 #### Controller Loader Factory
 
-Meskipun bisa diisi apapun pada callback route nya, namun akan lebih baik jika diarahkan ke controller.
+Meskipun callback bisa diisi apapun, namun akan lebih baik jika diarahkan ke controller.
 
 Misalnya URL ```http://project-gabut.com/user/azuria```
 
 ```php
 Router::add('/user', function ($id = null) {
-    Router::controller(User::class, $id); // param pertama diisi controller class, param kedua diisi parameter yang akan dikirim ke param controller method
+    Router::controller(User::class, $id); // param pertama controller class, param kedua adalah parameter yang akan dikirim ke controller method
 });
 ```
 
-Hasilnya, route nya adalah ```/user```, dan ```$id``` akan berisi ```azuria```.
+Hasilnya adalah route ```/user```, dan ```$id``` akan berisi ```azuria```.
 
 Router akan mencoba memanggil controller sesuai dengan request method, dan ```Router::runNotFoundHandler()``` akan dijalankan jika method tidak ditemukan.
 
@@ -91,7 +87,8 @@ Router akan mencoba memanggil controller sesuai dengan request method, dan ```Ro
 - ```DELETE``` akan memanggil method ```delete($id)```
 
 ## View
-View adalah template halaman HTML yang akan dirender dan dikirim ke client. Misalnya
+View adalah template halaman HTML yang berada pada direktori ```app/Views/```. Cara memanggilnya seperti di bawah ini.
+Misalnya mengirim data ```date``` secara dinamis untuk dirender pada view.
 
 ```php
 $data = [
@@ -101,31 +98,29 @@ $data = [
 view('dashboard', $data);
 ```
 
-data ```date``` akan dikirim ke view dashboard dan untuk menampilkannya adalah sebagai berikut.
+Cara menuliskan data dinamis di atas pada view adalah sebagai berikut.
 
-```app/Views/dashboard.php```
+Jika view berupa ```dashboard.php```:
 
 ```php
-<h2> <?= $date ?> <h2>
+<?= $date ?>
 ```
 
-```app/Views/dashboard.html```
+Jika view berupa ```dashboard.html```:
 
 ```html
-<h2> {{ date }} </h2>
+{{ date }}
 ```
 
 Meskipun view mendukung file PHP dan HTML, direkomendasikan selalu menggunakan PHP karena performa jauh lebih baik.
 Selain itu HTML hanya mendukung syntax ```{{ }}``` saja.
 
 ## Middleware
-Normalnya middleware sebagai jembatan penghubung, tapi di PHP kalau dibuat begitu kesan nya
-memaksakan, karena request/response bisa diakses langsung seperti menggunakan $_REQUEST atau header().
+Normalnya, middleware adalah perantara request/response menuju business layer, di PHP kalau dibuat seperti itu rasanya terlalu memaksa, karena request/response bisa diakses secara global seperti menggunakan $_REQUEST, ,http_response_code(), header(), echo, dan sebagainya. 
+Jadi di sini hanya untuk membuat event sebelum dan sesudah mengakses controller yang berada pada direktori ```app/Middlewares/```.
 
-Jadi middleware di sini hanya digunakan untuk membuat suatu proses sebelum dan sesudah mengakses controller atau apapun di dalam callback route.
-
-Misalnya untuk membatasi dashboard dengan login session, maka perlu membuat file 
-```app/Middlewares/DashboardMiddleware.php```
+Misalnya, untuk membatasi akses dashboard dengan login session, maka perlu membuat file 
+```DashboardMiddleware.php```
 kurang lebih seperti di bawah ini.
 
 ```php
@@ -191,7 +186,6 @@ Misalnya membuat model untuk tabel user, maka buat file ```app/Models/UserModel.
 
 ```php
 <?php
-
 namespace App\Models;
 
 use Light2\Model;
@@ -236,7 +230,30 @@ Method di atas merupakan method bawaan dari hasil extends Model,
 selebihnya silahkan buat method tersendiri sesuai dengan kebutuhan.
 Intinya, dengan menggunakan model, maka alur ke database menjadi lebih terstruktur dan mudah di maintenance.
 
-## Koneksi Database
+#### Mengambil Koneksi Database
+```php
+// menggunakan builder connect
+$result = $this->connect()->from('music_news')->fetchAll();
+
+// menggunakan variabel
+$db = $this->connect();
+$result = $db->from('music_news')->fetchAll();
+```
+
+#### Menggunakan Database Berbeda
+Secara default koneksi database menggunakan konfigurasi pada ```env.json```. Untuk menggunakan konfigurasi berbeda, tambahkan properti dsn, username dan password setelah property primaryKey. Ketika properti ```$dsn``` diset, maka model akan beralih menggunakan konfigurasi sesuai yang diisikan.
+
+```php
+{
+    public string $table = 'music_news';
+    public string $primaryKey = 'id';
+    protected string $dsn = 'mysql:host=localhost;port=3307;dbname=news'; // PDO DSN
+    protected string $username = 'user-1234' // PDO Username
+    protected string $password = 'abcdefgh' // PDO Password
+}
+```
+
+## Database
 
 Cara menghubungkan ke database:
 
