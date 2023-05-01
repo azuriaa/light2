@@ -6,12 +6,6 @@ use PDO;
 use Light2\Libraries\FluentPDO\Queries\{Insert, Select, Update, Delete};
 
 /**
- * FluentPDO is a quick and light PHP library for rapid query building. It features a smart join builder, which automatically creates table joins.
- *
- * For more information see docs/FluentPDO.md
- */
-
-/**
  * Class Query
  * @method debug(Queries\Base $param)
  */
