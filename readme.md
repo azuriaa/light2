@@ -37,7 +37,7 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
     }
 }
 ```
-***Note**: jika menggunakan database SQLite maka database akan diarahkan ke folder store`*
+***Note**: jika menggunakan database SQLite maka database akan diarahkan ke folder store*
 
 Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
 
@@ -49,20 +49,16 @@ d($entahApaItu);
 yang lupa dihapus, karena nantinya bikin error.
 
 ## Routing
-Route dapat diatur pada app/Config/Routes.php.
-
-Cara kerja routing pada project ini adalah dengan cara ditoken.
+Route dapat diatur pada ```app/Config/Routes.php```. Cara kerja routing pada project ini adalah dengan cara ditoken.
 
 URI akan ditoken berdasarkan karakter ```/```.
-
 Hasil penokenan pertama akan menjadi route dan hasil penokenan berikutnya
 akan menjadi params suatu callback route.
-
 Jadi jangan meregister route yang menggunakan slash lebih dari satu.
 
 Alasan ditoken daripada regex, karena performa nya kencengan pake token.
 
-### Contoh Benar
+#### Contoh Benar
 ```php
 Router::add('/page', function () {
     // ...
@@ -72,10 +68,59 @@ Router::add('/page-to-something', function () {
     // ...
 });
 ```
-### Contoh Salah
+#### Contoh Salah
 ```php
 Router::add('/page/to/something', function () {
     // ini gak jalan :v
+});
+```
+
+## Middleware
+Normalnya middleware sebagai jembatan penghubung, tapi di PHP kalau dibuat begitu kesan nya
+memaksakan, karena request/response bisa diakses langsung seperti menggunakan $_REQUEST atau header().
+
+Jadi middleware di sini hanya digunakan untuk membuat suatu proses sebelum dan sesudah mengakses controller atau apapun di dalam callback route.
+
+Misalnya untuk membatasi dashboard dengan login session, maka perlu membuat file 
+```app/Middlewares/DashboardMiddleware.php```
+kurang lebih seperti di bawah ini.
+
+```php
+<?php
+
+namespace App\Middlewares;
+
+class DashboardMiddleware
+{
+    public static function before(): void
+    {
+        // jika belum login akan di redirect ke halaman login
+        session_start();
+        if (!$_SESSION['isLoggedIn']) {
+            header('Location: http://project-gabut.com/login');
+            exit(0);
+        }
+    }
+
+    public static function after(): void
+    {
+        // ...
+    }
+}
+```
+
+Cara mengaktifkanya dapat diseting pada ```app/Config/Routes.php```.
+
+```php
+// Menggunakan controller loader
+Router::add('/dashboard', function ($id = null) {
+    Router::controller(DashboardController::class, $id, DashboardMiddleware::class);
+});
+
+// Atau bisa juga manual
+Router::add('/dashboard', function ($id = null) {
+    DashboardMiddleware::before();
+    Router::controller(DashboardController::class, $id);
 });
 ```
 
@@ -93,6 +138,61 @@ $model = new \App\Models\ApapunItuModel;
 ```
 
 Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
+
+## Model
+
+Model di sini adalah layer yang berkomunikasi ke suatu tabel di database. Meskipun database
+bisa connect darimana saja, tapi alangkah baiknya kalau terstruktur rapi di folder ```app/Models/```
+
+Misalnya membuat model untuk tabel user, maka buat file ```app/Models/UserModel.php dan isikan
+minimal seperti di bawah ini.
+
+```php
+<?php
+
+namespace App\Models;
+
+use Light2\Model;
+
+class UserModel extends Model
+{
+    public string $table = 'user'; // nama tabel di database
+    public string $primaryKey = 'user_id'; // primary key tabel ini
+}
+```
+
+Cara menggunakanya dapat sebagai berikut, misalnya model dipanggil dari controller.
+
+```php
+// memanggil UserModel
+$user = model('UserModel');
+
+// SELECT * FROM user
+$result = $user->findAll();
+
+// SELECT * FROM user WHERE user_id = 19
+$result = $user->find(19);
+
+// INSERT INTO user (user_id, user_name) VALUES (01, 'user_01')
+$data = [
+    'user_id' => 01,
+    'user_name' => 'user_01',
+];
+$result = $user->insert($data);
+
+// UPDATE user SET user_name = 'user_terabaikan' WHERE user_id = 4
+$data = [
+    'user_name' => 'user_terabaikan',
+];
+$result = $user->update($data, 4);
+
+// DELETE FROM user WHERE user_id = 14
+$result = $user->delete(14);
+```
+
+Method di atas merupakan method bawaan dari hasil extends Model,
+selebihnya silahkan buat method tersendiri sesuai dengan kebutuhan.
+Intinya, dengan menggunakan model, maka alur ke database menjadi lebih terstruktur dan mudah di maintenance.
 
 ## Connect Database
 Project ini menggunakan FluentPDO.
