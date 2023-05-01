@@ -72,7 +72,7 @@ Router::add('/page/to/something', function () {
 
 Meskipun bisa diisi apapun pada callback route nya, namun akan lebih baik jika diarahkan ke controller.
 
-Misalnya pada pada URL ```http://project-gabut.com/user/azuria```
+Misalnya URL ```http://project-gabut.com/user/azuria```
 
 ```php
 Router::add('/user', function ($id = null) {
