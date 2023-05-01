@@ -1,17 +1,9 @@
 # Light2
 Project buat programmer yang males kalo ketemu bloatware.
 
-Light2 ejaan "Light Two" dibaca "Lhaa..itu" adalah sebuah project sederhana dan memang dibuat sesederhana 
-mungkin untuk meminimalisir latensi response.
+Latar belakang project ini adalah bermula ketika mencari framework PHP, namun tidak menemukan framework dengan response time kurang dari 10ms meskipun hanya menampilkan halaman kosong, environtment diset ke production, serta sudah mengaktifkan PHP OPCache & JIT Compilation. Dengan begitu, untuk mencapai tujuan tersebut terpaksa membuat sendiri dari scratch, hingga akhirnya jadilah project ini.
 
-Awalnya si pengembang ini mencari php framework tapi tidak menemukan yang bisa 
-dibawah 10ms response. Akhirnya pengembang membuat project sendiri dari scratch. Setelah 2 tahun riset 
-akhirnya terselesaikan tujuan project ini.
-
-Light2, Light artinya ringan, angka 2 artinya project kedua dan sebenarnya tidak ada hubungannya 
-dengan versioning project ini, Light2 sendiri dibaca "Lhaa..itu" merupakan plesetan dari 
-ejaan inggris "LightTwo" karena pengembang ketika berhasil menyelesaikan tujuan utama project ini 
-merasa "Lhaa.. itu, ini dia yang bener".
+Light2, Light artinya ringan, sesuai namanya project ini harus bisa mencapai response time dibawah 10ms ketika tidak ada beban. Angka 2 artinya project kedua dan sebenarnya tidak ada hubungannya dengan versioning project ini, project ini berbasis pada project pertama ```AzurinCore``` yang secara tidak sengaja project tersebut hilang ketika akan dibongkar, akhirnya terpaksa membuat project baru lagi dari scratch. Light2 sendiri dibaca "Lhaa..itu" merupakan plesetan dari ejaan inggris "LightTwo" karena pengembang ketika berhasil menyelesaikan tujuan utama project ini merasa "Lhaa.. itu, itu baru bener!".
 
 ## Setup
 Seperti project pada umumnya, front controller ada di public_html/index.php.
@@ -37,6 +29,8 @@ Setelah itu sesuaikan setingan env.json yang ada pada ROOTPATH, misalnya
     }
 }
 ```
+***Note**: host harus diakhiri tanpa tanda slash*
+
 ***Note**: jika menggunakan database SQLite maka database akan diarahkan ke folder store*
 
 Saat environtment di set ke production, Kint & Whoops tidak akan di load, jadi jangan sampai masih ada kayak gini
@@ -58,22 +52,71 @@ Jadi jangan meregister route yang menggunakan slash lebih dari satu.
 
 Alasan ditoken daripada regex, karena performa nya kencengan pake token.
 
-#### Contoh Benar
+#### Contoh
+
 ```php
 Router::add('/page', function () {
-    // ...
+    // benar
 });
 
 Router::add('/page-to-something', function () {
-    // ...
+    // benar
 });
-```
-#### Contoh Salah
-```php
+
 Router::add('/page/to/something', function () {
     // ini gak jalan :v
 });
 ```
+
+#### Controller Loader Factory
+
+Meskipun bisa diisi apapun pada callback route nya, namun akan lebih baik jika diarahkan ke controller.
+
+Misalnya pada pada URL ```http://project-gabut.com/user/azuria```
+
+```php
+Router::add('/user', function ($id = null) {
+    Router::controller(User::class, $id); // param pertama diisi controller class, param kedua diisi parameter yang akan dikirim ke param controller method
+});
+```
+
+Hasilnya, route nya adalah ```/user```, dan ```$id``` akan berisi ```azuria```.
+
+Router akan mencoba memanggil controller sesuai dengan request method, dan ```Router::runNotFoundHandler()``` akan dijalankan jika method tidak ditemukan.
+
+- ```GET``` dengan ```$id``` null akan memanggil method ```index()```
+- ```GET``` dengan ```$id``` terisi akan memanggil method ```show($id)```
+- ```POST``` akan memanggil method ```create()```
+- ```PUT``` atau ```PATCH``` akan memanggil method ```update($id)```
+- ```DELETE``` akan memanggil method ```delete($id)```
+
+## View
+View adalah template halaman HTML yang akan dirender dan dikirim ke client. Misalnya
+
+```php
+$data = [
+    'date' => date('d-m-Y')
+];
+
+view('dashboard', $data);
+```
+
+data ```date``` akan dikirim ke view dashboard dan untuk menampilkannya adalah sebagai berikut.
+
+```app/Views/dashboard.php```
+
+```php
+<h2> <?= $date ?> <h2>
+```
+
+```app/Views/dashboard.html```
+
+```html
+<h2> {{ date }} </h2>
+```
+
+Meskipun view mendukung file PHP dan HTML, direkomendasikan selalu menggunakan PHP karena performa jauh lebih baik.
+Selain itu HTML hanya mendukung syntax ```{{ }}``` saja.
 
 ## Middleware
 Normalnya middleware sebagai jembatan penghubung, tapi di PHP kalau dibuat begitu kesan nya
@@ -109,7 +152,7 @@ class DashboardMiddleware
 }
 ```
 
-Cara mengaktifkanya dapat diseting pada ```app/Config/Routes.php```.
+Lalu dapat diimplementasikan pada ```app/Config/Routes.php```.
 
 ```php
 // menggunakan controller loader
@@ -124,8 +167,8 @@ Router::add('/dashboard', function ($id = null) {
 });
 ```
 
-## Load Class
-Kalau load suatu class atau model, usahain pakai helper biar jadi singleton/shared instance.
+## Singleton
+Membuat instance suatu class menjadi singleton/shared instance.
 
 ```php
 // mending
@@ -137,12 +180,12 @@ $class = new \App\DiFolderMana\ClassApapunItu;
 $model = new \App\Models\ApapunItuModel;
 ```
 
-Karena udah jadi project enteng, jangan sampai malah jadi berat kayak framework di pasaran karna kebanyakan instance.
+Kan project uenteng, jangan sampai malah jadi berat kayak framework di pasaran gara-gara kebanyakan instance.
 
 ## Model
 
 Model di sini adalah layer yang berkomunikasi ke suatu tabel di database. Meskipun database
-bisa connect darimana saja, tapi alangkah baiknya kalau terstruktur rapi di folder ```app/Models/```
+bisa connect darimana saja, alangkah baiknya kalau terstruktur rapi di folder ```app/Models/```
 
 Misalnya membuat model untuk tabel user, maka buat file ```app/Models/UserModel.php``` dan isi minimal seperti di bawah ini.
 
@@ -193,26 +236,14 @@ Method di atas merupakan method bawaan dari hasil extends Model,
 selebihnya silahkan buat method tersendiri sesuai dengan kebutuhan.
 Intinya, dengan menggunakan model, maka alur ke database menjadi lebih terstruktur dan mudah di maintenance.
 
-## Connect Database
-Project ini menggunakan FluentPDO.
+## Koneksi Database
 
-Kalau di dalam model, begini caranya.
-
-```php
-// ini pakai builder
-$resultA = $this->connect()->insertInto('table_a', ['key' => 'value1'])->execute();
-
-// pake query manual juga bisa
-$resultB = $this->connect()->getPdo()->query('SELECT * FROM table_b')->fetchAll();
-```
-
-Kalau di luar model atau di file manapun, begini caranya.
+Cara menghubungkan ke database:
 
 ```php
 $fluent = db_connect('mysql:dbname=fluentdb', 'user', 'password');
 
-// jika sesuai setingan env.json params cukup dikosongi
-$fluent = db_connect(); 
+$fluent = db_connect(); // versi ringkas, mengambil parameter env.json
 ```
 
 Cara membuat kueri:
