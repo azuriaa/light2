@@ -64,8 +64,6 @@ Router::add('/page/to/something', function () {
 });
 ```
 
-#### Controller Loader Factory
-
 Meskipun callback bisa diisi apapun, namun akan lebih baik jika diarahkan ke controller.
 
 Misalnya URL ```http://project-gabut.com/user/azuria```
