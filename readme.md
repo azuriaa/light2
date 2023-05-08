@@ -200,10 +200,10 @@ Optional parameter untuk memilih pattern apa yang akan digunakan sebagai validat
 #### Min & Max
 Optional untuk angka minimal suatu data input, jika berupa string maka menjadi panjang string jika integer atau float akan menjadi nilai minimal atau maksimum suatu bilangan.
 
-- min (default 0)
-- max (default 255)
+- nilai min dapat berupa integer atau float (default 0)
+- nilai max dapat berupa integer atau float (default 255)
 
-Jika berupda date atau bool, kedua param ini akan diabaikan.
+Jika berupa date atau bool, kedua param ini akan diabaikan.
 
 ## Singleton
 Membuat instance suatu class menjadi singleton/shared instance.
