@@ -2,7 +2,7 @@
 
 namespace App\Config;
 
-use Light2\Router;
+use Light2\Services\Router;
 use App\Controllers\Home;
 
 class Routes

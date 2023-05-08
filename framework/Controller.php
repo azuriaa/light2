@@ -2,17 +2,17 @@
 
 namespace Light2;
 
-use Light2\Services\RequestService;
-use Light2\Services\ResponseService;
+use Light2\Services\Request;
+use Light2\Services\Response;
 
 abstract class Controller
 {
-    protected RequestService $request;
-    protected ResponseService $response;
+    protected Request $request;
+    protected Response $response;
 
     public function __construct()
     {
-        $this->request = service(RequestService::class);
-        $this->response = service(ResponseService::class);
+        $this->request = service(Request::class);
+        $this->response = service(Response::class);
     }
 }

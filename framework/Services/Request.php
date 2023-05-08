@@ -2,7 +2,7 @@
 
 namespace Light2\Services;
 
-class RequestService
+class Request
 {
     /**
      * Retrieves the message's request target.
