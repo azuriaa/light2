@@ -177,7 +177,7 @@ try {
     // param #1 data input
     // param #2 pattern
     // param #3 min
-    // param #4 ma
+    // param #4 max
     $luas = Validator::validate($data['luas'], 'float', 10, 100);
 
     echo "luas: $luas";
