@@ -2,7 +2,7 @@
 
 namespace Light2\Services;
 
-class ResponseService
+class Response
 {
     /**
      * HTTP Status Code

@@ -3,6 +3,7 @@
 namespace Light2;
 
 use App\Config\Routes;
+use Light2\Services\Router;
 use Light2\Libraries\Whoops\Run;
 use Light2\Libraries\Whoops\Handler\PrettyPageHandler;
 

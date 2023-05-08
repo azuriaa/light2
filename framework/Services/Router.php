@@ -1,8 +1,8 @@
 <?php
 
-namespace Light2;
+namespace Light2\Services;
 
-use Light2\Services\RequestService;
+use Light2\Services\Request;
 
 class Router
 {
@@ -13,7 +13,7 @@ class Router
     {
         $currentURI = explode(
             '/',
-            service(RequestService::class)->getRequestTarget(),
+            service(Request::class)->getRequestTarget(),
         );
 
         $currentRoute = '/' . $currentURI[1];
@@ -35,7 +35,7 @@ class Router
     public static function controller($controller, $id = null, $middleware = null): void
     {
         $controller = service($controller);
-        $method = service(RequestService::class)->getMethod();
+        $method = service(Request::class)->getMethod();
 
         if (isset($middleware) && method_exists($middleware, 'before')) {
             $middleware::before();
