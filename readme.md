@@ -160,6 +160,51 @@ Router::add('/dashboard', function ($id = null) {
 });
 ```
 
+## Validation
+
+Validation sederhana ini berguna untuk menangani input yang tidak diinginkan. Cara penggunaannya adalah sebagai berikut.
+
+```php
+// import class nya
+use Light2\Libraries\Light2Validator\Validator;
+
+// misal melakukan validasi data di bawah ini
+$data = [
+    'luas' => 88.2,
+];
+
+try {
+    // param #1 data input
+    // param #2 pattern
+    // param #3 min
+    // param #4 ma
+    $luas = Validator::validate($data['luas'], 'float', 10, 100);
+
+    echo "luas: $luas";
+} catch (\Exception $e) {
+    // hasilnya akan exception jika ada yang tidak valid
+    echo $e->getMessage();
+}
+```
+#### Pattern
+Optional parameter untuk memilih pattern apa yang akan digunakan sebagai validator.
+
+- alpha
+- alphanum (default)
+- bool
+- date
+- email
+- float
+- int
+
+#### Min & Max
+Optional untuk angka minimal suatu data input, jika berupa string maka menjadi panjang string jika integer atau float akan menjadi nilai minimal atau maksimum suatu bilangan.
+
+- min (default 0)
+- max (default 255)
+
+Jika berupda date atau bool, kedua param ini akan diabaikan.
+
 ## Singleton
 Membuat instance suatu class menjadi singleton/shared instance.
 
