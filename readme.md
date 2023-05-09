@@ -196,14 +196,17 @@ Optional parameter untuk memilih pattern apa yang akan digunakan sebagai validat
 - email
 - float
 - int
+- ip
+- slug
+- url
 
 #### Min & Max
-Optional untuk angka minimal suatu data input, jika berupa string maka menjadi panjang string jika integer atau float akan menjadi nilai minimal atau maksimum suatu bilangan.
+Optional untuk batasan suatu data input, jika berupa string maka menjadi panjang string jika integer atau float akan menjadi nilai minimal atau maksimum suatu bilangan.
 
 - nilai min dapat berupa integer atau float (default 0)
 - nilai max dapat berupa integer atau float (default 255)
 
-Jika berupa date atau bool, kedua param ini akan diabaikan.
+Kedua param ini akan diabaikan untuk pattern bool, date, email, ip dan url.
 
 ## Singleton
 Membuat instance suatu class menjadi singleton/shared instance.

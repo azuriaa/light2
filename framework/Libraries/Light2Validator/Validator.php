@@ -16,6 +16,7 @@ class Validator
         $patterns = [
             'alpha' => '/^([a-z])+$/i',
             'alphanum' => '/^([a-z0-9])+$/i',
+            'slug' => '/^([-a-z-0-9_-])+$/i',
         ];
 
         switch ($pattern) {
@@ -42,6 +43,16 @@ class Validator
             case 'date':
                 if (!strtotime($input)) {
                     throw new \Exception("Invalid date.");
+                }
+                break;
+            case 'ip':
+                if (!filter_var($input, FILTER_VALIDATE_IP)) {
+                    throw new \Exception("Invalid IP address.");
+                }
+                break;
+            case 'url':
+                if (!filter_var($input, FILTER_VALIDATE_URL)) {
+                    throw new \Exception("Invalid URL.");
                 }
                 break;
             default:
