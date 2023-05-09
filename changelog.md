@@ -1,4 +1,4 @@
-## Light2 2.2.5
+## Light2 2.2.6
 - Dukungan untuk validasi input form sederhana
 
 ## Light2 2.2.4
