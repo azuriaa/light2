@@ -16,7 +16,8 @@ class Validator
         $patterns = [
             'alpha' => '/^([a-z])+$/i',
             'alphanum' => '/^([a-z0-9])+$/i',
-            'slug' => '/^([-a-z-0-9_-])+$/i',
+            'slug' => '/^([a-z0-9-_])+$/i',
+            'text' => '/^([a-z0-9-_.,?!: ])+$/i',
         ];
 
         switch ($pattern) {
@@ -45,16 +46,6 @@ class Validator
                     throw new \Exception("Invalid date.");
                 }
                 break;
-            case 'ip':
-                if (!filter_var($input, FILTER_VALIDATE_IP)) {
-                    throw new \Exception("Invalid IP address.");
-                }
-                break;
-            case 'url':
-                if (!filter_var($input, FILTER_VALIDATE_URL)) {
-                    throw new \Exception("Invalid URL.");
-                }
-                break;
             default:
                 if (strlen($input) < $min || strlen($input) > $max) {
                     throw new \Exception("Invalid string length.");
@@ -72,5 +63,25 @@ class Validator
         }
 
         return $input;
+    }
+
+    public static function run(array $values, array $rules): array
+    {
+        foreach (array_keys($rules) as $key) {
+            $rule = explode('|', $rules[$key]);
+            if (isset($rule[1])) {
+                $limiter = explode(' ', $rule[1]);
+                self::validate(
+                    $values[$key],
+                    $rule[0],
+                    str_replace('min:', '', $limiter[0]),
+                    str_replace('max:', '', $limiter[1]),
+                );
+            } else {
+                self::validate($values[$key], $rule[0]);
+            }
+        }
+
+        return $values;
     }
 }
