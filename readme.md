@@ -305,7 +305,7 @@ $result = $user->delete(14);
 
 Method di atas merupakan method bawaan dari hasil extends Model,
 selebihnya silahkan buat method tersendiri sesuai dengan kebutuhan.
-Intinya, dengan menggunakan model, maka alur ke database menjadi lebih terstruktur dan mudah di maintenance.
+Intinya, dengan menggunakan model, maka alur ke database menjadi lebih terstruktur dan mudah.
 
 #### Mengambil Koneksi Database
 ```php
@@ -325,8 +325,8 @@ Secara default koneksi database menggunakan konfigurasi pada ```env.json```. Unt
     public string $table = 'music_news';
     public string $primaryKey = 'id';
     protected string $dsn = 'mysql:host=localhost;port=3307;dbname=news'; // PDO DSN
-    protected string $username = 'user-1234' // PDO Username
-    protected string $password = 'abcdefgh' // PDO Password
+    protected string $username = 'user-1234'; // PDO Username
+    protected string $password = 'abcdefgh'; // PDO Password
 }
 ```
 
