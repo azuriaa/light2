@@ -88,10 +88,6 @@ function view(string $file, array $data = []): void
 // App Config
 date_default_timezone_set(\App\Config\App::$defaultTimezone);
 
-if (!\App\Config\App::$exposePHP) {
-    header_remove('X-Powered-By');
-}
-
 if (\App\Config\App::$autoloadComposer) {
     require_once ROOTPATH . '\\vendor\\autoload.php';
 }
