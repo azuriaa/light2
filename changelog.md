@@ -1,5 +1,6 @@
-## Light2 2.2.7
+## Light2 2.2.8
 - Dukungan untuk validasi input form sederhana
+- Pengurangan fitur tidak perlu
 
 ## Light2 2.2.4
 - PDO DSN untuk sqlite sekarang otomatis diarahkan ke folder store
