@@ -1,3 +1,6 @@
+## Light 2.2.9
+- Default view hello world diganti ke counter app
+
 ## Light2 2.2.8
 - Dukungan untuk validasi input form sederhana
 - Pengurangan fitur tidak perlu
